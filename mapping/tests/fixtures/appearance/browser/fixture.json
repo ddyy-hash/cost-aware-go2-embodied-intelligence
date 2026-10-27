@@ -1,0 +1,6 @@
+{
+  "marker": "SYNTHETIC_TEST_ONLY",
+  "purpose": "browser appearance loading and responsive rendering only",
+  "geometry_authority": false,
+  "acceptance_authority": false
+}

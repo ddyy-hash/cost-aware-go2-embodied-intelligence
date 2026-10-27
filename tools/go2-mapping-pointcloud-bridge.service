@@ -1,0 +1,25 @@
+[Unit]
+Description=Go2 mapping Unitree pointcloud bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_UNITREE_INTERFACE=eth0
+Environment=GO2_MAPPING_NATIVE_LIDAR_TOPIC=rt/utlidar/cloud
+Environment=GO2_MAPPING_POINTCLOUD_TOPIC=/livox/lidar
+Environment=GO2_MAPPING_LIO_POINTCLOUD_TOPIC=/go2/lio/lidar
+Environment=GO2_MAPPING_LIO_LIVOX_TOPIC=/go2/lio/livox
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_unitree_pointcloud_bridge.sh
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,26 @@
+[Unit]
+Description=Go2 mapping PGTT elevation heightmap
+After=go2-mapping-pointcloud-bridge.service
+Requires=go2-mapping-pointcloud-bridge.service
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_HEIGHTMAP_INPUT_TOPIC=/livox/lidar
+Environment=GO2_MAPPING_HEIGHTMAP_OUTPUT_TOPIC=/rt/elevation_heightmap
+Environment=GO2_MAPPING_HEIGHTMAP_FRAME_ID=base_link
+Environment=GO2_MAPPING_SENSOR_FRAME_TRANSFORM_ID=AUTO_GO2_LIDAR_FRAME_v1
+Environment=GO2_MAPPING_HEIGHTMAP_FILE=/home/unitree/go2_mapping/runtime/pgtt-heightmap.bin
+Environment=GO2_MAPPING_STAIR_PROBE_FILE=/home/unitree/go2_mapping/runtime/stair-probe-profile.bin
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_pgtt_heightmap.sh
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

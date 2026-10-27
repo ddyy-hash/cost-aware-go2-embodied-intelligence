@@ -1,0 +1,14 @@
+coordinate_policy:
+  source: design_bim
+  geometry_authority: as_built_map
+  publish_transform_only_when_registered: true
+acceptance:
+  minimum_independent_structural_groups: 3
+  minimum_combined_support_m: 12
+  median_point_to_plane_residual_m: 0.05
+  p95_point_to_plane_residual_m: 0.10
+  maximum_translation_sigma_m: 0.05
+  maximum_rotation_sigma_deg: 1.0
+fallback:
+  require_operator_correspondences: 3
+  preserve_accepted_and_rejected_candidates: true

@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GO2 空间建图控制台</title>
+  <link rel="stylesheet" href="/static/style.css?v=coarse-map-editor-v8">
+  <script type="importmap">{"imports":{"three":"/static/vendor/three.module.js"}}</script>
+</head>
+<body>
+  <main>
+    <header class="app-header">
+      <div class="app-header-title">
+        <p class="eyebrow">GO2 / 实时空间重建</p>
+        <h1>空间建图控制台</h1>
+      </div>
+      <div class="app-header-controls">
+        <nav id="workspace-mode-switch" class="workspace-mode-switch" aria-label="Workspace mode">
+          <span class="workspace-mode-label">工作区</span>
+          <button id="workspace-mode-observe" type="button" aria-pressed="true">观测</button>
+          <button id="workspace-mode-coarse" type="button" aria-pressed="false">粗建</button>
+          <span id="workspace-mode-state" class="workspace-mode-state">OBSERVE</span>
+        </nav>
+        <div class="connection-state"><i id="indicator"></i><span id="quality">正在初始化</span><span id="simulation-badge" class="simulation-badge" hidden>仿真 / 非真实机器人</span></div>
+      </div>
+    </header>
+
+    <aside id="status-panel" class="status-panel" hidden>
+      <div class="status-content">
+        <strong id="status-title">System Status</strong>
+        <p id="status-message">正在连接机器人并初始化传感器...</p>
+      </div>
+    </aside>
+
+    <section class="workspace" aria-label="Live spatial reconstruction workspace">
+      <section class="scene-panel" aria-label="Three dimensional LiDAR reconstruction">
+        <canvas id="scene"></canvas>
+        <details id="coarse-observation-reference" class="coarse-observation-reference">
+          <summary>观测参考</summary>
+          <p>展开后查看当前 LiDAR 观测；粗建仍以 2D 地图为准。</p>
+        </details>
+        <section id="coarse-map-card" class="coarse-map-card coarse-map-editor-shell" aria-label="Smart floor map">
+          <div class="coarse-map-head">
+            <div>
+              <p class="coarse-kicker">BUILDING FUNCTION MAP</p>
+              <div class="coarse-building-context" aria-label="Building and floor context">
+                <span><small>BUILDING</small><strong id="coarse-building-id">building-1</strong></span>
+                <label class="coarse-floor-picker"><small>FLOOR</small><select id="coarse-floor-select" aria-label="选择楼层"><option value="">当前楼层</option></select></label>
+                <button id="coarse-floor-add" class="coarse-floor-add" type="button" title="新建一个独立的空白楼层地图">新增楼层</button>
+                <button id="coarse-template-open" class="coarse-floor-add" type="button" title="将本地模板应用到当前楼层草稿">套用模板</button>
+                <button id="coarse-connection-add" class="coarse-floor-add" type="button" title="添加楼梯或电梯跨层连接">跨层连接</button>
+                <span><small>FLOOR ID</small><strong id="coarse-floor-id">当前楼层</strong></span>
+                <span><small>SPACES</small><strong id="coarse-space-count">0 个功能区</strong></span>
+              </div>
+              <p class="coarse-map-subtitle">大楼功能区 · 当前楼层人工空间先验</p>
+              <h2>房间计划</h2>
+              <section class="coarse-building-overview" aria-label="Building overview">
+                <div class="coarse-overview-heading"><span>楼栋总览</span><span><small id="coarse-overview-summary">0 个楼层 · 0 个连接</small><button id="coarse-building-mission" type="button" class="coarse-inline-action">编译整栋楼任务</button></span></div>
+                <div id="coarse-building-floor-cards" class="coarse-building-floor-cards"></div>
+                <div id="coarse-building-connections" class="coarse-building-connections"></div>
+              </section>
+            </div>
+            <div class="coarse-map-actions" role="toolbar" aria-label="Coarse map actions">
+              <button id="coarse-map-history-toggle" type="button" title="Show immutable map revision history">历史</button>
+              <details class="coarse-more" id="coarse-map-more">
+                <summary title="More map actions">更多</summary>
+                <div class="coarse-more-menu" role="menu">
+                  <button id="coarse-map-load-current" type="button" title="Load the current server map into a new draft">加载当前地图</button>
+                  <button id="coarse-map-refresh" type="button" title="Refresh coarse map">刷新</button>
+                  <button id="coarse-map-rebuild" type="button" title="Rebuild verification tasks">重算任务</button>
+                  <button id="coarse-map-compile" type="button" title="Compile a mission from the current coarse map">编译任务</button>
+                  <button id="coarse-map-nav2-export" type="button" title="Export the current USER_PRIOR map for Nav2">Nav2 map</button>
+                  <button id="coarse-map-nav2-frontiers" type="button" title="Preview ranked frontier candidates without sending a goal">Frontier</button>
+                  <button id="coarse-map-json-import" type="button" title="Import a validated coarse map JSON">导入 JSON</button>
+                  <button id="coarse-map-json-export" type="button" title="Export the current coarse map JSON">导出 JSON</button>
+                </div>
+              </details>
+            </div>
+          </div>
+          <div class="coarse-map-tools" role="toolbar" aria-label="Coarse map editor tools">
+            <button type="button" data-map-tool="select" aria-pressed="true" title="Select and edit a map entity">选择</button>
+            <button id="coarse-map-add-room" type="button" data-map-tool="room" aria-pressed="false" title="Draw a room polygon">房间</button>
+            <button type="button" data-map-tool="wall" aria-pressed="false" title="Draw a wall line">墙线</button>
+            <button type="button" data-map-tool="door" aria-pressed="false" title="Place a door">门</button>
+            <button type="button" data-map-tool="keep_out_zone" aria-pressed="false" title="Draw a keep-out zone">禁行区</button>
+            <button type="button" data-map-tool="stair" aria-pressed="false" title="Draw a stair zone">楼梯间</button>
+            <button type="button" data-map-tool="landing" aria-pressed="false" title="Draw a stair landing">平台</button>
+            <details class="coarse-more coarse-tools-more">
+              <summary title="More drawing tools">更多工具</summary>
+              <div class="coarse-more-menu" role="menu">
+                <button type="button" data-map-tool="corridor" aria-pressed="false" title="Draw a corridor polygon">走廊</button>
+                <button id="coarse-map-add-feature" type="button" data-map-tool="equipment" aria-pressed="false" title="Place equipment">设备</button>
+                <button type="button" data-map-tool="anchor" aria-pressed="false" title="Place a localization anchor">锚点</button>
+                <button type="button" data-map-tool="inspection_target" aria-pressed="false" title="Place an inspection target">目标</button>
+              </div>
+            </details>
+            <span class="coarse-tool-divider" aria-hidden="true"></span>
+            <label class="coarse-snap-toggle" for="coarse-map-snap"><input id="coarse-map-snap" type="checkbox" checked>吸附</label>
+            <button id="coarse-map-finish" type="button" title="Commit the current polygon or line" disabled>完成</button>
+            <button id="coarse-map-cancel" type="button" title="Cancel the current edit" disabled>取消</button>
+          </div>
+          <div class="coarse-map-stage">
+            <svg id="coarse-map-svg" viewBox="0 0 520 320" role="application" aria-label="Editable operator coarse room map"></svg>
+            <svg id="coarse-map-svg-3d" viewBox="0 0 520 320" role="application" aria-label="3D isometric coarse room map" hidden></svg>
+            <div id="coarse-map-threejs-container" class="coarse-map-threejs-container" hidden></div>
+            <div id="coarse-three-transform-tools" class="coarse-three-transform-tools" hidden role="toolbar" aria-label="3D 家具变换">
+              <button id="coarse-three-transform-translate" type="button" aria-pressed="true" title="移动选中的家具">移动</button>
+              <button id="coarse-three-transform-rotate" type="button" aria-pressed="false" title="旋转选中的家具">旋转</button>
+              <button id="coarse-three-transform-space" type="button" aria-pressed="false" title="切换局部或世界坐标">世界</button>
+              <label class="coarse-three-transform-snap" for="coarse-three-transform-snap"><input id="coarse-three-transform-snap" type="checkbox" checked>吸附</label>
+            </div>
+            <div class="coarse-map-navigator" role="toolbar" aria-label="Coarse map navigation">
+              <div class="coarse-view-mode-switch" role="radiogroup" aria-label="视图模式">
+                <button id="coarse-view-2d" type="button" role="radio" aria-checked="true" data-view="2d" title="2D 平面编辑视图">
+                  <span class="view-mode-label">2D</span>
+                </button>
+                <button id="coarse-view-iso" type="button" role="radio" aria-checked="false" data-view="3d" title="等轴测预览视图">
+                  <span class="view-mode-label">等轴</span>
+                </button>
+                <button id="coarse-view-3d" type="button" role="radio" aria-checked="false" data-view="threejs" title="3D 透视交互视图">
+                  <span class="view-mode-label">3D</span>
+                </button>
+              </div>
+              <span class="coarse-nav-divider" aria-hidden="true"></span>
+              <button id="coarse-map-zoom-in" type="button" title="放大">+</button>
+              <button id="coarse-map-zoom-out" type="button" title="缩小">−</button>
+              <button id="coarse-map-reset-view" type="button" title="重置视图">◎</button>
+            </div>
+            <div class="coarse-map-legends">
+              <div class="coarse-map-legend"><span class="legend-dot prior"></span>人工粗建 <span class="legend-dot verified"></span>机器人已验证 <span class="legend-dot revisit"></span>待补扫 <span class="coarse-frontier-candidate-key">FRONTIER</span></div>
+              <div class="coarse-map-coverage-legend" aria-label="Coverage status legend"><span class="coverage-unseen">UNSEEN</span><span class="coverage-observed">OBSERVED</span><span class="coverage-verified">VERIFIED</span><span class="coverage-quarantined">QUARANTINED</span></div>
+            </div>
+          </div>
+          <p id="coarse-map-editor-status" class="coarse-map-editor-status" aria-live="polite">选择实体，或从工具栏开始绘制。</p>
+          <section class="coarse-quick-actions" aria-label="功能区快捷编辑">
+            <div class="coarse-quick-row">
+              <button type="button" data-quick-action="rename"><span class="quick-icon">A</span><span>区域命名</span></button>
+              <button type="button" data-quick-action="wall"><span class="quick-icon">|</span><span>虚拟墙</span></button>
+              <button type="button" data-quick-action="split"><span class="quick-icon">||</span><span>分割</span></button>
+              <button type="button" data-quick-action="merge"><span class="quick-icon">&lt;-&gt;</span><span>合并</span></button>
+              <button type="button" data-quick-action="equipment"><span class="quick-icon">[]</span><span>家具</span></button>
+            </div>
+            <div class="coarse-quick-row coarse-quick-row-secondary">
+              <button type="button" data-quick-action="wall"><span class="quick-icon">##</span><span>墙体</span></button>
+              <button type="button" data-quick-action="material"><span class="quick-icon">//</span><span>材质</span></button>
+              <button type="button" data-quick-action="carpet"><span class="quick-icon">O</span><span>地毯</span></button>
+              <button type="button" data-quick-action="threshold"><span class="quick-icon">=</span><span>门槛条</span></button>
+            </div>
+          </section>
+          <aside id="coarse-map-history" class="coarse-map-history" hidden aria-label="Coarse map revision history">
+            <div><small>REVISION HISTORY</small><button id="coarse-map-history-close" type="button" title="Close revision history">关闭</button></div>
+            <ol id="coarse-map-history-list"></ol>
+          </aside>
+          <details id="coarse-stair-survey" class="coarse-stair-survey">
+            <summary>STAIR SURVEY</summary>
+            <div class="coarse-stair-survey-grid">
+              <div><small>STATE</small><strong id="coarse-stair-survey-state">NO SURVEY</strong></div>
+              <div><small>PROFILE</small><strong id="coarse-stair-survey-profile">N/A</strong></div>
+              <div><small>SOURCE</small><strong id="coarse-stair-survey-source">N/A</strong></div>
+              <div><small>BLOCKERS</small><strong id="coarse-stair-survey-blockers">NO_STAIR_SURVEY_ARTIFACT</strong></div>
+            </div>
+            <button id="coarse-stair-survey-refresh" type="button" title="Refresh the latest read-only stair survey report">刷新</button>
+          </details>
+          <input id="coarse-map-json-file" type="file" accept="application/json,.json" hidden>
+          <div class="coarse-map-foot">
+            <div><small>ACTIVE TASK</small><strong id="coarse-active-task">等待任务</strong></div>
+            <div><small>ROOM COVERAGE</small><strong id="coarse-coverage">0%</strong></div>
+            <div><small>MAP AUTHORITY</small><strong id="coarse-authority">USER PRIOR</strong></div>
+            <div><small>MISSION</small><strong id="coarse-mission-state">UNCOMPILED</strong></div>
+            <div><small>NAVIGATION</small><strong id="coarse-navigation-state">NAV_READY</strong></div>
+          </div>
+          <section id="coarse-scan-workflow" class="coarse-scan-workflow" aria-labelledby="coarse-scan-workflow-title">
+            <div class="coarse-scan-workflow-head">
+              <div><small>SCAN WORKFLOW</small><h3 id="coarse-scan-workflow-title">房间采集会话</h3></div>
+              <span id="coarse-scan-phase" data-state="idle">READY</span>
+            </div>
+            <div class="coarse-scan-workflow-grid">
+              <div><small>SESSION</small><strong id="coarse-scan-session">NONE</strong></div>
+              <div><small>HEALTH</small><strong id="coarse-scan-health">WAITING</strong></div>
+              <div><small>DETAIL</small><strong id="coarse-scan-detail">等待开始采集</strong></div>
+            </div>
+            <button id="coarse-scan-stop" type="button" class="danger" hidden>停止采集</button>
+          </section>
+        </section>
+        <dialog id="coarse-room-scan-dialog" class="coarse-room-scan-dialog">
+          <form method="dialog" id="coarse-room-scan-form">
+            <p class="coarse-kicker">TAILSCALE ROOM CAPTURE</p>
+            <h2>开始单房间采集</h2>
+            <p>固定为 SESSION_ODOM_LOCAL / geometry-only；不会发送运动指令。</p>
+            <label for="coarse-room-scan-duration">时长（秒）<input id="coarse-room-scan-duration" type="number" min="60" max="3600" step="60" value="600" required></label>
+            <label for="coarse-room-scan-token">短期操作令牌<input id="coarse-room-scan-token" type="password" autocomplete="off" required></label>
+            <p id="coarse-room-scan-status" data-state="idle" aria-live="polite">等待确认</p>
+            <div class="coarse-room-scan-actions">
+              <button id="coarse-room-scan-cancel" type="button">取消</button>
+              <button id="coarse-room-scan-confirm" type="submit">确认开始</button>
+            </div>
+          </form>
+        </dialog>
+        <dialog id="coarse-floor-dialog" class="coarse-floor-dialog">
+          <form method="dialog" id="coarse-floor-form">
+            <p class="coarse-kicker">BUILDING FLOOR</p>
+            <h2>新增楼层</h2>
+            <p>创建独立的空白楼层地图，之后可继续绘制功能区。</p>
+            <label for="coarse-floor-form-id">楼层 ID<input id="coarse-floor-form-id" name="floor_id" required maxlength="80" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,79}" placeholder="floor-02"></label>
+            <label for="coarse-floor-form-label">楼层名称<input id="coarse-floor-form-label" name="label" required maxlength="80" placeholder="二层"></label>
+            <p id="coarse-floor-form-status" class="coarse-floor-form-status" aria-live="polite"></p>
+            <div class="coarse-room-scan-actions">
+              <button id="coarse-floor-form-cancel" type="button">取消</button>
+              <button id="coarse-floor-form-submit" type="submit">创建楼层</button>
+            </div>
+          </form>
+        </dialog>
+        <dialog id="coarse-furniture-dialog" class="coarse-furniture-dialog">
+          <form method="dialog" id="coarse-furniture-form">
+            <p class="coarse-kicker">FURNITURE CATALOG</p>
+            <h2>添加家具</h2>
+            <p>选择一个轻量家具先验，再点击地图放置。</p>
+            <div class="coarse-catalog-filters"><input id="coarse-furniture-search" type="search" placeholder="搜索家具" aria-label="搜索家具"><select id="coarse-furniture-category" aria-label="家具分类"><option value="all">全部分类</option><option value="seating">座椅</option><option value="sleep">卧室</option><option value="table">桌面</option><option value="storage">收纳</option><option value="decor">装饰</option></select></div>
+            <div class="coarse-furniture-grid">
+              <button type="button" data-furniture-type="sofa" data-furniture-category="seating"><span class="furniture-glyph">▰</span><span>沙发</span></button>
+              <button type="button" data-furniture-type="table" data-furniture-category="table"><span class="furniture-glyph">□</span><span>桌子</span></button>
+              <button type="button" data-furniture-type="bed" data-furniture-category="sleep"><span class="furniture-glyph">▭</span><span>床</span></button>
+              <button type="button" data-furniture-type="chair" data-furniture-category="seating"><span class="furniture-glyph">▱</span><span>椅子</span></button>
+              <button type="button" data-furniture-type="cabinet" data-furniture-category="storage"><span class="furniture-glyph">▥</span><span>柜子</span></button>
+              <button type="button" data-furniture-type="plant" data-furniture-category="decor"><span class="furniture-glyph">✽</span><span>绿植</span></button>
+            </div>
+            <div class="coarse-room-scan-actions"><button id="coarse-furniture-cancel" type="button">取消</button></div>
+          </form>
+        </dialog>
+        <dialog id="coarse-template-dialog" class="coarse-floor-dialog">
+          <form method="dialog" id="coarse-template-form">
+            <p class="coarse-kicker">FLOOR TEMPLATES</p>
+            <h2>选择楼层模板</h2>
+            <p>模板只替换当前本地草稿；确认保存 revision 前不会写入服务器。</p>
+            <div id="coarse-template-grid" class="coarse-template-grid"></div>
+            <div class="coarse-room-scan-actions"><button id="coarse-template-cancel" type="button">取消</button></div>
+          </form>
+        </dialog>
+        <dialog id="coarse-material-dialog" class="coarse-floor-dialog">
+          <form method="dialog" id="coarse-material-form">
+            <p class="coarse-kicker">SURFACE MATERIAL</p>
+            <h2>选择材质</h2>
+            <p>材质只记录为人工先验，不改变观测表面 authority。</p>
+            <div class="coarse-material-grid">
+              <button type="button" data-material="tile"><span class="material-swatch tile"></span><span>浅色地砖</span></button>
+              <button type="button" data-material="wood"><span class="material-swatch wood"></span><span>木地板</span></button>
+              <button type="button" data-material="concrete"><span class="material-swatch concrete"></span><span>混凝土</span></button>
+              <button type="button" data-material="carpet"><span class="material-swatch carpet"></span><span>织物地毯</span></button>
+            </div>
+            <div class="coarse-room-scan-actions"><button id="coarse-material-cancel" type="button">取消</button></div>
+          </form>
+        </dialog>
+        <dialog id="coarse-connection-dialog" class="coarse-floor-dialog">
+          <form method="dialog" id="coarse-connection-form">
+            <p class="coarse-kicker">VERTICAL CONNECTION</p><h2>跨层连接</h2>
+            <label>类型<select id="coarse-connection-kind"><option value="stairs">楼梯</option><option value="elevator">电梯</option></select></label>
+            <label>起始楼层<select id="coarse-connection-from"></select></label>
+            <label>目标楼层<select id="coarse-connection-to"></select></label>
+            <label>名称<input id="coarse-connection-label" maxlength="80" placeholder="主楼梯"></label>
+            <div id="coarse-connection-stair-fields" class="coarse-connection-stair-fields">
+              <label>台阶数<input id="coarse-connection-step-count" type="number" min="1" max="500" step="1" value="16"></label>
+              <label>踢面高度 (m)<input id="coarse-connection-riser" type="number" min="0.01" max="0.5" step="0.01" value="0.18"></label>
+              <label>踏步深度 (m)<input id="coarse-connection-tread" type="number" min="0.05" max="1.5" step="0.01" value="0.28"></label>
+              <label>宽度 (m)<input id="coarse-connection-width" type="number" min="0.1" max="10" step="0.05" value="1.1"></label>
+              <label>方向<select id="coarse-connection-direction"><option value="up">上行</option><option value="down">下行</option><option value="bidirectional" selected>双向</option></select></label>
+            </div>
+            <div class="coarse-stair-point-grid">
+              <label>起点 X<input id="coarse-connection-from-x" type="number" step="0.01"></label>
+              <label>起点 Y<input id="coarse-connection-from-y" type="number" step="0.01"></label>
+              <label>终点 X<input id="coarse-connection-to-x" type="number" step="0.01"></label>
+              <label>终点 Y<input id="coarse-connection-to-y" type="number" step="0.01"></label>
+            </div>
+            <p id="coarse-connection-status" class="coarse-floor-form-status" aria-live="polite"></p>
+            <div class="coarse-room-scan-actions"><button id="coarse-connection-cancel" type="button">取消</button><button type="submit">保存连接</button></div>
+          </form>
+        </dialog>
+        <div id="scene-label" class="scene-label">预览子图 / 米</div>
+        <div id="geometry-provenance" class="geometry-provenance" hidden aria-live="polite">
+          <strong id="geometry-quality">预览 / 未标定</strong>
+          <span id="geometry-transform">传感器坐标不可用</span>
+        </div>
+        <div class="surface-controls" aria-label="Building surface view controls">
+          <div class="segmented-control scene-layer-controls" role="group" aria-label="Scene evidence layer">
+            <button id="scene-layer-measured" type="button" aria-pressed="true">实测</button>
+            <button id="scene-layer-live" type="button" aria-pressed="false">实时</button>
+            <button id="scene-layer-compare" type="button" aria-pressed="false">对比</button>
+          </div>
+          <div class="segmented-control" role="group" aria-label="Surface assembly scope" hidden>
+            <button id="surface-view-building" type="button" aria-pressed="false">Building</button>
+            <button id="surface-view-local" type="button" aria-pressed="true">Local</button>
+          </div>
+          <label class="floor-control" for="surface-floor"><span>楼层</span><select id="surface-floor"><option value="all">全部</option></select></label>
+          <div class="segmented-control trajectory-controls" role="group" aria-label="Trajectory visibility">
+            <button id="trajectory-current" type="button" aria-pressed="true">当前轨迹</button>
+            <button id="trajectory-history" type="button" aria-pressed="false">历史轨迹</button>
+          </div>
+          <label class="floor-control trajectory-session-control" for="trajectory-session" hidden><span>Session</span><select id="trajectory-session"><option value="all">All</option></select></label>
+          <span id="map-texture-status" class="map-texture-status" data-state="UNTEXTURED">等待纹理</span>
+        </div>
+        <div class="scene-tools" role="toolbar" aria-label="Three dimensional view controls">
+          <div class="segmented-control map-projection-controls" role="group" aria-label="Map projection">
+            <button id="map-view-top" type="button" aria-pressed="true" title="俯视地图">俯视</button>
+            <button id="map-view-3d" type="button" aria-pressed="false" title="倾斜三维视图">三维</button>
+          </div>
+          <button id="reset-view" type="button" title="重置三维视图" aria-label="重置三维视图">重置</button>
+          <button id="follow-robot" type="button" title="跟随机器人" aria-label="跟随机器人" aria-pressed="true">跟随</button>
+          <button id="live-point-cloud" type="button" title="显示实时点云" aria-label="显示实时点云" aria-pressed="false">点云</button>
+          <button id="export-measured" type="button" title="Publish measured PLY layer" aria-label="Publish measured PLY layer" hidden>Export</button>
+        </div>
+        <div class="live-mapping-controls" aria-live="polite">
+          <span><small>实时覆盖</small><strong id="live-coverage">暂无实时点云</strong></span>
+          <span><small>传感器状态</small><strong id="live-sensor-health">等待数据</strong></span>
+          <span><small>坐标对齐</small><strong id="live-alignment">等待对齐</strong></span>
+        </div>
+        <section id="robot-control-status" class="robot-control-status" aria-labelledby="robot-control-title" aria-live="polite">
+          <div class="robot-control-head"><span><small>机器人控制</small><strong id="robot-control-title">GO2 / 只读连接</strong></span><b id="robot-control-state" data-state="unknown">等待状态</b></div>
+          <div class="robot-control-grid">
+            <span><small>GO2 连接</small><strong id="robot-control-link">未验证</strong></span>
+            <span><small>运动层</small><strong id="robot-control-locomotion">已锁定</strong></span>
+            <span><small>NAV2 桥接</small><strong id="robot-control-navigation">未验证</strong></span>
+            <span><small>传感器</small><strong id="robot-control-sensors">未验证</strong></span>
+          </div>
+          <p id="robot-control-gates">ACTUATION_LOCKED / WAITING FOR READ-ONLY STATUS</p>
+        </section>
+        <section id="mapping-review" class="mapping-review" aria-labelledby="mapping-review-title" aria-live="polite">
+          <div class="mapping-review-head"><span><small>建图复核</small><strong id="mapping-review-title">粗图 / 观测证据</strong></span><b id="mapping-review-state" data-state="unknown">等待证据</b></div>
+          <div class="mapping-review-grid">
+            <span><small>粗图范围</small><strong id="mapping-review-coarse">暂无</strong></span>
+            <span><small>观测范围</small><strong id="mapping-review-observed">暂无</strong></span>
+            <span><small>轨迹</small><strong id="mapping-review-trajectory">暂无</strong></span>
+            <span><small>重建</small><strong id="mapping-review-reconstruction">暂无</strong></span>
+            <span><small>覆盖率</small><strong id="mapping-review-coverage">暂无</strong></span>
+          </div>
+          <p id="mapping-review-difference">等待对齐 / 尚未计算</p>
+        </section>
+        <section class="coverage-audit" aria-labelledby="coverage-audit-title">
+          <div class="coverage-audit-head"><div><small>覆盖审计</small><strong id="coverage-audit-title">补扫建议</strong></div><span id="coverage-audit-state" data-state="unknown">暂无任务</span></div>
+          <div class="coverage-audit-grid">
+            <span><small>未覆盖</small><strong id="coverage-audit-unseen">暂无</strong></span>
+            <span><small>下一处补扫</small><strong id="coverage-audit-next">暂无</strong></span>
+            <span><small>路线</small><strong id="coverage-audit-route">暂无</strong></span>
+          </div>
+          <p id="coverage-audit-gate" class="coverage-audit-gate">仅供复核 / 尚未批准</p>
+          <button id="coverage-audit-focus" type="button" hidden>定位到粗图</button>
+        </section>
+        <div id="export-result" class="export-result" hidden>
+          <strong id="export-state">导出空闲</strong>
+          <a id="export-ply" href="#" download hidden>PLY</a>
+          <a id="export-metadata" href="#" download hidden>JSON</a>
+        </div>
+        <div id="scene-empty" class="scene-empty">
+          <div class="empty-state-content">
+            <h2>正在初始化空间重建</h2>
+            <ul class="connection-checklist">
+              <li id="check-calibration" data-status="checking"><span class="check-icon">○</span><span>正在加载标定</span></li>
+              <li id="check-robot" data-status="checking"><span class="check-icon">○</span><span>正在连接机器人</span></li>
+              <li id="check-lidar" data-status="waiting"><span class="check-icon">○</span><span>等待 LiDAR 关键帧</span></li>
+              <li id="check-surface" data-status="waiting"><span class="check-icon">○</span><span>正在生成初始表面</span></li>
+            </ul>
+            <p class="empty-hint">预计初始化时间：<strong>5-15 秒</strong></p>
+          </div>
+        </div>
+        <div id="scene-legend" class="legend"><span class="surface-key"></span> 观测三角表面 <span class="trail-key"></span> 当前路线 <span class="robot-key"></span> Go2</div>
+        <section id="camera-assist" class="camera-assist" aria-label="Camera assisted point measurement">
+          <header class="camera-header">
+            <div><small>相机辅助</small><strong id="camera-state">等待 RGB-D</strong></div>
+            <div class="camera-actions" role="group" aria-label="Camera view controls">
+              <button id="camera-rgb-view" type="button" title="显示彩色画面" aria-pressed="true">彩色</button>
+              <button id="camera-depth-view" type="button" title="显示深度画面并测量点位" aria-pressed="false" disabled>深度</button>
+              <button id="clear-measurements" type="button" title="清除相机测量点" disabled>清除</button>
+              <button id="camera-fullscreen" type="button" title="全屏打开相机辅助" aria-label="全屏打开相机辅助"><span aria-hidden="true">&#x26F6;</span></button>
+            </div>
+          </header>
+          <div class="camera-canvas-wrap">
+            <img id="camera-stream" data-src="/api/camera/stream.mjpeg" alt="" draggable="false">
+            <canvas id="camera-view" aria-label="Camera frame; click two aligned depth points to measure their distance"></canvas>
+            <div id="camera-empty" class="camera-empty">
+              <div class="camera-empty-content">
+                <p class="camera-empty-title">RGB-D 相机未启用</p>
+                <p class="camera-empty-reason">收到机器人对齐的 RGB-D 关键帧后，相机辅助将自动启用</p>
+              </div>
+            </div>
+          </div>
+          <div class="camera-readout">
+            <span id="camera-point-a">A: --</span>
+            <span id="camera-point-b">B: --</span>
+            <strong id="camera-distance">距离：--</strong>
+          </div>
+          <p id="texture-state" class="texture-state">纹理：已锁定 / 需要标定</p>
+        </section>
+      </section>
+
+      <aside class="telemetry" aria-label="Live mapping telemetry">
+        <section class="coarse-inspector" aria-label="Selected entity and draft state">
+          <form id="coarse-entity-form" class="coarse-entity-form" hidden>
+            <label>名称<input id="coarse-entity-name" required maxlength="80"></label>
+            <label>类型<input id="coarse-entity-kind" readonly></label>
+            <label class="coarse-lock-toggle"><input id="coarse-entity-locked" type="checkbox">锁定位置</label>
+            <div id="coarse-stair-fields" class="coarse-stair-fields" hidden>
+              <div class="coarse-inspector-subtitle">楼梯参数</div>
+              <label>台阶数<input id="coarse-stair-step-count" type="number" min="1" max="500" step="1"></label>
+              <label>踢面高度 (m)<input id="coarse-stair-riser" type="number" min="0.01" max="0.5" step="0.01"></label>
+              <label>踏步深度 (m)<input id="coarse-stair-tread" type="number" min="0.05" max="1.5" step="0.01"></label>
+              <label>宽度 (m)<input id="coarse-stair-width" type="number" min="0.1" max="10" step="0.05"></label>
+              <label>方向<select id="coarse-stair-direction"><option value="up">上行</option><option value="down">下行</option><option value="bidirectional">双向</option></select></label>
+              <div class="coarse-stair-point-grid">
+                <label>入口 X<input id="coarse-stair-entry-x" type="number" step="0.01"></label>
+                <label>入口 Y<input id="coarse-stair-entry-y" type="number" step="0.01"></label>
+                <label>出口 X<input id="coarse-stair-exit-x" type="number" step="0.01"></label>
+                <label>出口 Y<input id="coarse-stair-exit-y" type="number" step="0.01"></label>
+              </div>
+            </div>
+            <div class="coarse-furniture-fields" hidden>
+              <label>宽 (m)<input id="coarse-furniture-width" type="number" min="0.05" max="20" step="0.05"></label>
+              <label>深 (m)<input id="coarse-furniture-depth" type="number" min="0.05" max="20" step="0.05"></label>
+              <label>高 (m)<input id="coarse-furniture-height" type="number" min="0.05" max="20" step="0.05"></label>
+              <label>旋转 (°)<input id="coarse-furniture-rotation" type="number" min="-360" max="360" step="5"></label>
+              <div class="coarse-rotate-actions" aria-label="家具旋转">
+                <button id="coarse-furniture-rotate-left" type="button" title="逆时针旋转 15 度">↺</button>
+                <button id="coarse-furniture-rotate-right" type="button" title="顺时针旋转 15 度">↻</button>
+              </div>
+            </div>
+            <div class="coarse-entity-actions">
+              <button id="coarse-entity-save" type="submit">保存修改</button>
+              <button id="coarse-entity-delete" type="button">删除</button>
+            </div>
+          </form>
+          <div class="coarse-draft-bar">
+            <span id="coarse-map-draft-status" data-state="clean">SERVER MAP / REVISION 1</span>
+            <span id="coarse-map-draft-conflict" data-state="hidden" hidden>REVISION CONFLICT</span>
+            <button id="coarse-map-reload-server" type="button" hidden>加载服务器版</button>
+            <button id="coarse-map-keep-draft" type="button" hidden>继续本地草稿</button>
+            <button id="coarse-room-scan-start" type="button" hidden>开始单房间采集</button>
+          </div>
+          <div class="coarse-inspector-actions">
+            <button id="coarse-map-discard-draft" type="button" title="Discard only the local draft">放弃草稿</button>
+            <button id="coarse-map-save-revision" type="button" title="Save the draft as a new USER_PRIOR revision" disabled>保存 revision</button>
+          </div>
+        </section>
+        <details id="evidence-drawer" class="sidebar-drawer" open>
+          <summary class="sidebar-drawer-summary">
+            <h2 id="workflow-title"><small>证据流水线</small>重建验证</h2>
+            <span id="workflow-export" data-state="unknown">等待中</span>
+          </summary>
+          <section class="workflow-panel" aria-labelledby="workflow-title">
+            <div class="workflow-grid">
+            <div><small>片段</small><strong id="workflow-segment-state">加载中</strong></div>
+            <div><small>质量</small><strong id="workflow-quality-state">加载中</strong></div>
+            <div><small>覆盖</small><strong id="workflow-coverage-state">加载中</strong></div>
+            <div><small>外观</small><strong id="workflow-appearance-state">加载中</strong></div>
+            <div><small>位姿 P95</small><strong id="workflow-pose-p95">暂无</strong></div>
+            <div><small>墙面 P95</small><strong id="workflow-plane-p95">暂无</strong></div>
+            <div><small>时钟拟合</small><strong id="workflow-clock-fit">暂无</strong></div>
+            <div><small>复访</small><strong id="workflow-revisit-count">暂无</strong></div>
+          </div>
+          <p id="workflow-blockers" data-state="unknown">LOADING</p>
+          <div class="workflow-export-actions"><button id="workflow-replay-button" type="button" title="校验和闭合后才能重放最新片段">重放片段</button><span id="workflow-replay" data-state="unknown">等待中</span><button id="workflow-export-button" type="button" title="所有证据门控通过后导出正式 GLB">正式 GLB</button><a id="workflow-export-link" href="#" download hidden>GLB</a></div>
+          </section>
+        </details>
+        <details class="coarse-task-panel" open>
+          <summary class="coarse-task-panel-head"><span><p class="coarse-kicker">机器人复核</p><h2 id="coarse-task-title">补扫任务</h2></span><b id="coarse-task-count">0 待处理</b></summary>
+          <div class="coarse-task-panel-content">
+            <div id="coarse-room-list" class="coarse-room-list"></div>
+            <div id="coarse-task-list" class="coarse-task-list"></div>
+            <section id="coarse-route-audit" class="coarse-route-audit" aria-live="polite" aria-labelledby="coarse-route-audit-title">
+              <div class="coarse-route-audit-head"><span><small>路线安全</small><strong id="coarse-route-audit-title">任务路线复核</strong></span><b id="coarse-route-audit-state" data-state="unknown">等待审计</b></div>
+              <p id="coarse-route-audit-findings">选择任务后查看路线门控。</p>
+            </section>
+            <div class="coarse-navigation-controls" role="group" aria-label="Robot navigation controls">
+              <div class="coarse-navigation-label"><small>NAVIGATION CONTROL</small><strong>受控操作</strong></div>
+              <button id="coarse-navigation-pause" type="button" title="Pause the current navigation goal">暂停</button>
+              <button id="coarse-navigation-resume" type="button" title="Resume the paused navigation goal">恢复</button>
+              <button id="coarse-navigation-cancel" type="button" title="Cancel the current navigation goal">取消</button>
+              <button id="coarse-navigation-safety-stop" type="button" class="danger" title="Trigger the robot navigation safety stop">安全停机</button>
+              <button id="coarse-navigation-acknowledge" type="button" title="Acknowledge the current safety state">确认</button>
+            </div>
+          </div>
+        </details>
+        <details id="diagnostics-drawer">
+          <summary>诊断信息</summary>
+          <div class="telemetry-content">
+        <section class="telemetry-group" aria-labelledby="scan-group-title">
+          <h2 id="scan-group-title">扫描会话</h2>
+          <div class="detail"><small>会话</small><strong id="session-state">未知</strong></div>
+          <div class="detail"><small>采集</small><strong id="capture">原始采集状态未知</strong></div>
+          <div class="detail"><small>位姿 / 局部地图</small><strong id="pose">暂无</strong></div>
+        </section>
+        <section class="telemetry-group" aria-labelledby="geometry-group-title">
+          <h2 id="geometry-group-title">几何数据</h2>
+          <div class="metric"><small>体素</small><b id="points">暂无</b></div>
+          <div class="metric"><small>稠密 LiDAR</small><b id="dense-points">暂无</b></div>
+          <div class="metric"><small>关键帧</small><b id="sequence">暂无</b></div>
+          <div class="metric"><small>输入频率</small><b id="input-rate">暂无</b></div>
+          <div class="metric"><small>帧龄</small><b id="frame-age">暂无</b></div>
+          <div class="metric"><small>残差</small><b id="residual">暂无</b></div>
+        </section>
+        <section class="telemetry-group" aria-labelledby="room-scan-group-title">
+          <h2 id="room-scan-group-title">房间扫描</h2>
+          <div class="detail"><small>状态</small><strong id="room-scan-state">等待实时数据</strong></div>
+          <div class="metric"><small>扫描帧数</small><b id="room-scan-frames">暂无</b></div>
+          <div class="metric"><small>源点数</small><b id="room-scan-source-points">暂无</b></div>
+          <div class="metric"><small>已行进</small><b id="room-scan-trajectory">暂无</b></div>
+          <div class="detail"><small>观测范围</small><strong id="room-scan-extent">暂无</strong></div>
+        </section>
+        <section class="telemetry-group" aria-labelledby="building-surface-group-title">
+          <h2 id="building-surface-group-title">楼栋表面</h2>
+          <div class="detail"><small>状态</small><strong id="building-scan-state">等待表面数据</strong></div>
+          <div class="metric"><small>楼层</small><b id="building-floor">暂无</b></div>
+          <div class="metric"><small>子地图</small><b id="building-submap">暂无</b></div>
+          <div class="metric"><small>表面元素</small><b id="surface-surfels">暂无</b></div>
+          <div class="metric"><small>三角面</small><b id="surface-triangles">暂无</b></div>
+          <div class="metric"><small>瓦片</small><b id="surface-tiles">暂无</b></div>
+          <div class="metric"><small>未解析</small><b id="surface-unresolved">暂无</b></div>
+        </section>
+        <section class="telemetry-group appearance-telemetry" aria-labelledby="appearance-group-title">
+          <h2 id="appearance-group-title">表面外观</h2>
+          <div class="detail"><small>状态</small><strong id="appearance-state" class="appearance-state" data-state="TEXTURE_NOT_AUTHORIZED">纹理未授权</strong></div>
+          <div class="metric"><small>COLORED COVERAGE</small><b id="colored-coverage" class="appearance-value">N/A</b></div>
+          <div class="metric"><small>TEXTURED COVERAGE</small><b id="textured-coverage" class="appearance-value">N/A</b></div>
+          <div class="metric"><small>MINIMUM VIEWS</small><b id="appearance-views" class="appearance-value">N/A</b></div>
+          <div class="metric"><small>DELIVERY THRESHOLDS</small><b id="appearance-thresholds" class="appearance-value">80.0000% / 2 VIEWS</b></div>
+          <div class="metric"><small>DELIVERY</small><b id="appearance-delivery" class="appearance-value">BLOCKED</b></div>
+          <div class="metric"><small>PHYSICAL DEPTH</small><b id="physical-depth-acceptance" class="appearance-value">NOT ACCEPTED</b></div>
+          <div class="metric"><small>ASSISTANCE COVERAGE</small><b id="assistance-coverage" class="appearance-value">N/A</b></div>
+          <div class="metric"><small>ATLAS DENSITY</small><b id="appearance-density" class="appearance-value">N/A</b></div>
+          <div class="detail"><small>ACTIVE LOD</small><strong id="appearance-lod" class="appearance-value">N/A</strong></div>
+          <div class="detail"><small>TILE APPEARANCE REVISION</small><strong id="appearance-revision" class="appearance-value">N/A</strong></div>
+          <div class="detail"><small>BUILDING APPEARANCE REVISION</small><strong id="building-appearance-revision" class="appearance-value">N/A</strong></div>
+          <div class="detail"><small>BLOCKER</small><strong id="appearance-blocker" class="appearance-value">APPEARANCE EVIDENCE UNAVAILABLE</strong></div>
+        </section>
+        <section class="telemetry-group" aria-labelledby="transport-group-title">
+          <h2 id="transport-group-title">ADAPTIVE TRANSPORT</h2>
+          <div class="metric"><small>PREVIEW INGRESS</small><b id="uplink">N/A</b></div>
+          <div class="metric"><small>RECEIVER BURST</small><b id="raw-ingress">N/A</b></div>
+          <div class="metric"><small>PROBE CAPACITY</small><b id="observed-capacity">N/A</b></div>
+          <div class="metric"><small>ALLOCATED TOTAL</small><b id="link-budget">N/A</b></div>
+          <div class="metric"><small>PREVIEW / PRIORITY</small><b id="preview-budget">N/A</b></div>
+          <div class="metric"><small>HIGH DATA / REMAINDER</small><b id="high-budget">N/A</b></div>
+          <div class="metric"><small>VERIFIED PARTS</small><b id="verified-artifacts">N/A</b></div>
+          <div class="metric"><small>RECONSTRUCTED</small><b id="reconstructed-artifacts">N/A</b></div>
+          <div class="metric"><small>ACK RTT</small><b id="ack-rtt">N/A</b></div>
+          <div class="metric"><small>DUPLICATES</small><b id="retries">N/A</b></div>
+        </section>
+        <section class="telemetry-group" aria-labelledby="quality-group-title">
+          <h2 id="quality-group-title">DELIVERY AUTHORITY</h2>
+          <div class="detail"><small>QUALITY GATE</small><strong id="gate">N/A</strong></div>
+          <div class="metric"><small>DEPTH CORRESPONDENCES</small><b id="depth-correspondences">N/A</b></div>
+          <div class="metric"><small>DEPTH RESIDUAL P95</small><b id="depth-residual-p95">N/A</b></div>
+          <div class="metric"><small>TEXTURE COVERAGE</small><b id="texture-coverage">N/A</b></div>
+          <div class="detail"><small>TEXTURE BLOCKER</small><strong id="texture-blocker">N/A</strong></div>
+        </section>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <footer>
+      <span id="source">AWAITING VERIFIED LIDAR</span>
+      <span id="clock">--:--:--</span>
+    </footer>
+  </main>
+  <script type="module" src="/static/app.js?v=simulation-badge-v1"></script>
+  <script type="module" src="/static/coarse-map-3d.js?v=3d-iso-v2"></script>
+  <script type="module" src="/static/coarse-map-3d-threejs.js?v=3d-threejs-v2"></script>
+  <script type="module" src="/static/coarse-map.js?v=coarse-map-editor-v8"></script>
+  <script type="module" src="/static/workflow-status.js?v=workflow-v1"></script>
+</body>
+</html>

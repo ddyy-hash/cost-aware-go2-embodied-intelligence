@@ -1,0 +1,13 @@
+[Unit]
+Description=Prefer the AutoDL DERP region after Tailscale starts
+After=network-online.target tailscaled.service
+Wants=network-online.target
+PartOf=tailscaled.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/tailscale-autodl-derp-preference
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

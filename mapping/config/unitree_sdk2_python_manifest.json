@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "asset_type": "unitree_sdk2_python_runtime",
+  "upstream": "https://github.com/unitreerobotics/unitree_sdk2_python",
+  "upstream_commit": "65691c8a8bc53b98d3976dba4dbf9d5d20b2e7f5",
+  "sdk_version": "1.0.1",
+  "python": "3.8",
+  "cyclonedds": "0.10.2",
+  "cyclonedds_source_sha256": "f834962eabbdcdf4e9cd75cf87222f3c5ef22d9cb9e7ed651d9a8710fe984a30",
+  "sdk_source_sha256": "b74e43fb6535929ec2a9efc1685e96111932ac6a9d7105b9cc7564ebaf6b7d58",
+  "lowstate_topic": "rt/lowstate",
+  "lowcmd_topic": "rt/lowcmd",
+  "transport_policy": "SDK_IMPORT_AND_READONLY_LOWSTATE_UNTIL_HARDWARE_GATE"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "calibration": {
+    "minimum_source_captures": 3,
+    "lidar_imu_translation_repeatability_mm": 3.0,
+    "lidar_imu_rotation_repeatability_deg": 0.15,
+    "lidar_camera_translation_repeatability_mm": 5.0,
+    "lidar_camera_rotation_repeatability_deg": 0.2,
+    "camera_reprojection_median_px": 0.5,
+    "camera_reprojection_p95_px": 1.0,
+    "lidar_imu_timing_repeatability_ms": 1.0,
+    "lidar_camera_timing_repeatability_ms": 2.0
+  },
+  "geometry": {
+    "minimum_independent_measurements": 10,
+    "p95_dimension_error_mm": 20.0,
+    "maximum_dimension_error_mm": 35.0,
+    "minimum_accepted_loop_closures": 1,
+    "loop_point_to_plane_p95_mm": 30.0
+  },
+  "bim": {
+    "minimum_independent_structural_groups": 3,
+    "minimum_holdout_structural_groups": 1,
+    "registration_p95_residual_mm": 100.0
+  }
+}

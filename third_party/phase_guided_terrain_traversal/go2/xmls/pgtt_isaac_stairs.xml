@@ -1,0 +1,13 @@
+<mujoco model="pgtt_go2_stairs">
+  <compiler angle="radian" meshdir="assets"/>
+  <include file="go2_mjx_feetonly.xml"/>
+
+  <worldbody>
+    <body name="floor" pos="0 0 -0.025"><geom type="box" size="10 10 0.025" contype="2" conaffinity="1"/></body>
+    <body name="step0" pos="0.35 0 0.08"><geom type="box" size="0.175 0.6 0.08" contype="2" conaffinity="1"/></body>
+    <body name="step1" pos="0.70 0 0.16"><geom type="box" size="0.175 0.6 0.16" contype="2" conaffinity="1"/></body>
+    <body name="step2" pos="1.05 0 0.24"><geom type="box" size="0.175 0.6 0.24" contype="2" conaffinity="1"/></body>
+    <body name="step3" pos="1.40 0 0.32"><geom type="box" size="0.175 0.6 0.32" contype="2" conaffinity="1"/></body>
+    <body name="step4" pos="1.75 0 0.40"><geom type="box" size="0.175 0.6 0.40" contype="2" conaffinity="1"/></body>
+  </worldbody>
+</mujoco>

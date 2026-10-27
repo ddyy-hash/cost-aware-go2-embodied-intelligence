@@ -1,0 +1,11 @@
+name: go2-mapping-robot
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip
+  - pyyaml=6.*
+  - zstandard=0.23.*
+  - mcap=1.2.*
+  - psutil=7.*
+  - pytest=8.*

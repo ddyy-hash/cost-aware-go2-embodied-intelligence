@@ -1,0 +1,9 @@
+{
+  "name": "go2-mapping-console",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": { "dev": "vite --host 0.0.0.0", "build": "vite build" },
+  "dependencies": { "lucide": "^0.468.0", "three": "^0.172.0" },
+  "devDependencies": { "vite": "^6.1.0" }
+}

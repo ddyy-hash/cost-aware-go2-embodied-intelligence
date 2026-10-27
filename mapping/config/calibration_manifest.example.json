@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "status": "provisional",
+  "calibration_id": "REPLACE_WITH_MEASURED_CALIBRATION_ID",
+  "robot": {
+    "model": "go2_edu",
+    "serial": "REPLACE_WITH_ROBOT_SERIAL"
+  },
+  "capture_sets": {
+    "estimation_artifact_sha256": [
+      "REPLACE_WITH_ESTIMATION_CAPTURE_1_SHA256",
+      "REPLACE_WITH_ESTIMATION_CAPTURE_2_SHA256",
+      "REPLACE_WITH_ESTIMATION_CAPTURE_3_SHA256"
+    ],
+    "holdout_artifact_sha256": "REPLACE_WITH_EXCLUDED_HOLDOUT_SHA256"
+  },
+  "target": {
+    "family": "charuco",
+    "dictionary": "DICT_4X4_100",
+    "rows": 9,
+    "columns": 12,
+    "marker_length_m": 0.0145,
+    "square_length_m": 0.020,
+    "pattern_width_m": 0.240,
+    "pattern_height_m": 0.180,
+    "source_template_pdf_sha256": "FE05D01CA5FDDE303F712DAD177F53C3AE75D3493FF7D9A783B010F892A2D743",
+    "source_pdf_nominal_marker_length_m": 0.005,
+    "source_pdf_nominal_square_length_m": 0.007,
+    "dimension_authority": "physical_print",
+    "geometry_sha256": "311eaf2f593c6cc6bb2d4eec228974723df8bbd29acc211aee787d485edadd1a"
+  },
+  "solver": {
+    "version": "REPLACE_WITH_SOLVER_VERSION",
+    "implementation_sha256": "REPLACE_WITH_SOLVER_IMPLEMENTATION_SHA256"
+  },
+  "frame_chain": {
+    "lidar_frame_id": "REPLACE_WITH_LIDAR_FRAME_ID",
+    "color_optical_frame_id": "REPLACE_WITH_COLOR_OPTICAL_FRAME_ID",
+    "depth_optical_frame_id": "REPLACE_WITH_DEPTH_OPTICAL_FRAME_ID",
+    "device_serial": "REPLACE_WITH_REALSENSE_SERIAL",
+    "color_camera_info_sha256": "REPLACE_WITH_FULL_COLOR_CAMERA_INFO_SHA256",
+    "color_camera_info": {
+      "width": null,
+      "height": null,
+      "distortion_model": "REPLACE_WITH_RECORDED_MODEL",
+      "k": [],
+      "d": [],
+      "r": [],
+      "p": [],
+      "rectified": false
+    },
+    "depth_camera_info_sha256": "REPLACE_WITH_FULL_DEPTH_CAMERA_INFO_SHA256",
+    "depth_camera_info": {
+      "width": null,
+      "height": null,
+      "distortion_model": "REPLACE_WITH_RECORDED_MODEL",
+      "k": [],
+      "d": [],
+      "r": [],
+      "p": [],
+      "rectified": false
+    },
+    "t_c_l": {
+      "sha256": "REPLACE_WITH_T_C_L_SHA256",
+      "row_major": []
+    },
+    "t_d_c": {
+      "sha256": "REPLACE_WITH_T_D_C_SHA256",
+      "row_major": [],
+      "device_serial": "REPLACE_WITH_REALSENSE_SERIAL"
+    }
+  },
+  "clock_fits": {
+    "lidar": {
+      "slope": null,
+      "offset_ns": null,
+      "sample_count": null,
+      "span_s": null,
+      "inlier_fraction": null,
+      "median_absolute_residual_ms": null,
+      "p95_residual_ms": null,
+      "maximum_prediction_stddev_ms": null,
+      "estimator_version": "REPLACE_WITH_ESTIMATOR_VERSION",
+      "sha256": "REPLACE_WITH_LIDAR_CLOCK_FIT_SHA256"
+    },
+    "color": {
+      "slope": null,
+      "offset_ns": null,
+      "sample_count": null,
+      "span_s": null,
+      "inlier_fraction": null,
+      "median_absolute_residual_ms": null,
+      "p95_residual_ms": null,
+      "maximum_prediction_stddev_ms": null,
+      "estimator_version": "REPLACE_WITH_ESTIMATOR_VERSION",
+      "sha256": "REPLACE_WITH_COLOR_CLOCK_FIT_SHA256"
+    },
+    "depth": {
+      "slope": null,
+      "offset_ns": null,
+      "sample_count": null,
+      "span_s": null,
+      "inlier_fraction": null,
+      "median_absolute_residual_ms": null,
+      "p95_residual_ms": null,
+      "maximum_prediction_stddev_ms": null,
+      "estimator_version": "REPLACE_WITH_ESTIMATOR_VERSION",
+      "sha256": "REPLACE_WITH_DEPTH_CLOCK_FIT_SHA256"
+    }
+  },
+  "repeatability": {
+    "lidar_imu_translation_mm": null,
+    "lidar_imu_rotation_deg": null,
+    "lidar_camera_translation_mm": null,
+    "lidar_camera_rotation_deg": null
+  },
+  "timing": {
+    "lidar_imu_repeatability_ms": null,
+    "lidar_camera_repeatability_ms": null
+  },
+  "holdout_evidence": {
+    "artifact_sha256": "REPLACE_WITH_EXCLUDED_HOLDOUT_SHA256",
+    "accepted_board_poses": null,
+    "correspondences_per_pose": [],
+    "total_correspondences": null,
+    "validated_range_min_m": null,
+    "validated_range_max_m": null,
+    "camera_reprojection_median_px": null,
+    "camera_reprojection_p95_px": null,
+    "depth_median_absolute_residual_m": null,
+    "depth_p95_absolute_residual_m": null,
+    "absolute_mean_signed_bias_m": null,
+    "occlusion_conflict_fraction": null,
+    "free_space_violation_fraction": null,
+    "t_d_c_validated": false
+  }
+}

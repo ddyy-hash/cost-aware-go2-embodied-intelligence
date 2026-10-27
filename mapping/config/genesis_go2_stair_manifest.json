@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "asset_type": "genesis_go2_stair_policy",
+  "robot": "unitree_go2",
+  "upstream": "https://github.com/saifahmadgit/go2-sim2real-locomotion-rl",
+  "source_commit": "0830f3e3582acd5c9b3a5c09186d4f028f54d9dd",
+  "checkpoint_path": "third_party/go2-sim2real-locomotion-rl/logs/go2-stairs/model_104000.pt",
+  "checkpoint_sha256": "ac10f805b60bc3a8fa5b8acb561d1cc3b4b3a22ff12aea14a6d427bec6174cfd",
+  "runtime_enabled": false,
+  "retention": "ARCHIVE_ONLY_PROVENANCE",
+  "input_size": 49,
+  "action_size": 16,
+  "num_pos_actions": 12,
+  "num_stiffness_actions": 4,
+  "action_scale": 0.25,
+  "kp_default": 40.0,
+  "kd_default": 2.0,
+  "joint_order": [
+    "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
+    "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
+    "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
+    "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint"
+  ],
+  "terrain": {
+    "step_depth_m": 0.39,
+    "step_height_range_m": [0.02, 0.15],
+    "num_steps_per_flight": 6,
+    "height_scan": [11, 7]
+  },
+  "executable": false,
+  "transport_authorized": false,
+  "hardware_validation": "REQUIRED_BEFORE_ACTUATION"
+}

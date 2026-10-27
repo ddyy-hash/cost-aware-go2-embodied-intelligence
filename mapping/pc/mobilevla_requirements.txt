@@ -1,0 +1,19 @@
+# Verified local inference lock for the imported MobileVLA-R1 SFT checkpoint.
+# The upstream training environment uses Torch 2.3/Transformers 4.37; this
+# lock records the environment that successfully loaded the imported weights.
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.7.1+cu128
+torchvision==0.22.1+cu128
+transformers==4.53.2
+safetensors==0.5.3
+peft==0.9.0
+accelerate==1.14.0
+datasets==2.16.1
+einops==0.6.1
+einops-exts==0.0.4
+shortuuid==1.0.13
+timm==0.9.12
+decord==0.6.0
+
+# deepspeed and flash-attn are not required for this inference path; the
+# project backend supplies import-only compatibility for their upstream hooks.

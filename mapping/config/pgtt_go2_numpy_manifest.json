@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "asset_type": "pgtt_go2_numpy_policy",
+  "source_checkpoint_sha256": "bc1175d241044400fd2d975642bbe44e1e19fcde0da9b159522ead01d4e39189",
+  "source_commit": "9bd133884bbf2eeaa40c82aee534246ccaaf02f8",
+  "policy_file": "mapping/robot/pgtt-go2/policy_level03_run0.npz",
+  "sha256": "f3fe6655e9fa13e06ecccf13bf1aa13b5e62de50be4539781ac7a360b97fbedd",
+  "input_size": 153,
+  "action_size": 12,
+  "heightmap_shape": [11, 9],
+  "control_frequency_hz": 50,
+  "action_scale": 0.5,
+  "inference_runtime": "numpy",
+  "local_files_only": true,
+  "hardware_activation": "REQUIRES_EXPLICIT_GO2_GATE"
+}

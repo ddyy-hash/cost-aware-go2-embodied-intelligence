@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "status": "observed_on_robot",
+  "observed_at": "2026-07-31T13:53:00+08:00",
+  "robot": {
+    "model": "go2_edu",
+    "host": "192.0.2.11"
+  },
+  "device": {
+    "model": "Intel RealSense D435I",
+    "serial": "REALSENSE-DEVICE-REDACTED",
+    "firmware": "5.15.1.55"
+  },
+  "topics": {
+    "color_image": "/camera/color/image_raw",
+    "color_camera_info": "/camera/color/camera_info",
+    "depth_image": "/camera/depth/image_rect_raw",
+    "depth_camera_info": "/camera/depth/camera_info",
+    "depth_to_color_extrinsics": "/camera/extrinsics/depth_to_color",
+    "tf_static": "/tf_static"
+  },
+  "profiles": {
+    "color": "424x240x15",
+    "depth": "424x240x15"
+  },
+  "color_camera_info": {
+    "width": 424,
+    "height": 240,
+    "distortion_model": "plumb_bob",
+    "d": [0.0, 0.0, 0.0, 0.0, 0.0],
+    "k": [301.9424743652344, 0.0, 218.02423095703125, 0.0, 301.6651916503906, 126.14513397216797, 0.0, 0.0, 1.0],
+    "r": [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+    "p": [301.9424743652344, 0.0, 218.02423095703125, 0.0, 0.0, 301.6651916503906, 126.14513397216797, 0.0, 0.0, 0.0, 1.0, 0.0],
+    "frame_id": "camera_color_optical_frame",
+    "rectified": false
+  },
+  "depth_camera_info": {
+    "width": 424,
+    "height": 240,
+    "distortion_model": "plumb_bob",
+    "d": [0.0, 0.0, 0.0, 0.0, 0.0],
+    "k": [213.42172241210938, 0.0, 210.29110717773438, 0.0, 213.42172241210938, 119.36937713623047, 0.0, 0.0, 1.0],
+    "r": [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+    "p": [213.42172241210938, 0.0, 210.29110717773438, 0.0, 0.0, 213.42172241210938, 119.36937713623047, 0.0, 0.0, 0.0, 1.0, 0.0],
+    "frame_id": "camera_depth_optical_frame",
+    "rectified": false
+  },
+  "runtime": {
+    "enable_sync": false,
+    "align_depth": false,
+    "publish_tf": true,
+    "global_time": true,
+    "camera_color_optical_frame": "camera_color_optical_frame",
+    "camera_depth_optical_frame": "camera_depth_optical_frame",
+    "depth_to_color_extrinsics": {
+      "status": "pending_transient_local_capture",
+      "required_before_rgbd_lidar_fusion": true
+    }
+  },
+  "provenance": {
+    "source": "ros2 topic echo with reliable/volatile QoS on ROS_DOMAIN_ID=42",
+    "device_enumeration": "rs-enumerate-devices -s",
+    "note": "Intrinsics are the observed runtime CameraInfo values; they do not replace physical target measurements."
+  }
+}

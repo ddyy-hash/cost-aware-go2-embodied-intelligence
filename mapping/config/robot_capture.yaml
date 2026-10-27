@@ -1,0 +1,21 @@
+storage:
+  root_dir: /home/unitree/go2-mapping-data
+  capacity_gib: 40
+  raw_ring_gib: 28
+  acknowledged_spool_gib: 8
+  recovery_headroom_gib: 4
+  segment_duration_s: 60
+  compression: zstd
+  checksum: sha256
+camera_mode:
+  follow_active: subscriber_only
+  sensor_only: exclusive_driver
+  middleware: rmw_fastrtps_cpp
+safety:
+  min_free_gib_before_start: 45
+  pause_camera_hz: 12
+  pause_camera_window_s: 5
+  pause_cpu_percent: 85
+  pause_cpu_window_s: 15
+  pause_memory_available_gib: 1
+  pause_gpu_temperature_c: 82

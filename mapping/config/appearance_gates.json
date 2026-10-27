@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "algorithm_version": "appearance-v1",
+  "clock_fit": {
+    "minimum_sample_count": 200,
+    "minimum_span_s": 30.0,
+    "minimum_inlier_fraction": 0.95,
+    "maximum_slope_deviation_ppm": 50.0,
+    "maximum_median_absolute_residual_ms": 1.0,
+    "maximum_p95_residual_ms": 3.0,
+    "maximum_prediction_stddev_ms": 1.0
+  },
+  "depth_validation": {
+    "minimum_range_m": 0.5,
+    "maximum_range_m": 4.0,
+    "minimum_correspondences_per_tile": 100,
+    "maximum_median_absolute_residual_m": 0.025,
+    "maximum_p95_absolute_residual_m": 0.06,
+    "maximum_absolute_mean_signed_bias_m": 0.015,
+    "maximum_occlusion_conflict_fraction": 0.02,
+    "maximum_free_space_violation_fraction": 0.01
+  },
+  "holdout": {
+    "minimum_board_poses": 3,
+    "minimum_correspondences_per_pose": 500,
+    "minimum_total_correspondences": 10000,
+    "maximum_reprojection_median_px": 0.5,
+    "maximum_reprojection_p95_px": 1.0
+  },
+  "texture": {
+    "maximum_depth_residual_floor_m": 0.03,
+    "maximum_depth_residual_range_fraction": 0.015,
+    "minimum_independent_views": 2,
+    "maximum_linear_rgb_channel_stddev": 0.1,
+    "minimum_surface_coverage": 0.8
+  },
+  "augmentation": {
+    "minimum_quality_level": "CALIBRATED_DENSE",
+    "minimum_depth_frames": 3,
+    "minimum_independent_views": 2,
+    "maximum_depth_stddev_m": 0.03,
+    "maximum_hole_radius_m": 0.15
+  },
+  "depth_anything": {
+    "schema_version": 1,
+    "minimum_anchor_count": 256,
+    "grid_columns": 8,
+    "grid_rows": 6,
+    "holdout_fraction": 0.2,
+    "minimum_holdout_count": 64,
+    "huber_delta_inverse_m": 0.05,
+    "maximum_irls_iterations": 50,
+    "parameter_relative_tolerance": 1e-9,
+    "maximum_holdout_median_residual_m": 0.025,
+    "maximum_holdout_p95_residual_m": 0.06,
+    "maximum_holdout_absolute_bias_m": 0.015,
+    "bootstrap_replicates": 1000,
+    "maximum_scale_stddev_fraction": 0.02,
+    "maximum_uncertainty_m": 0.03,
+    "maximum_boundary_distance_m": 0.15,
+    "model_name": "Depth-Anything-V2-Small-hf",
+    "weights_sha256": "37a91a613d005c92f71e6b0caf2790c112ab06a7794fd2fa275521be14510137",
+    "preprocessing_revision": "depth-anything-preprocess-v1",
+    "input_size": [518, 518],
+    "precision": "float16"
+  }
+}

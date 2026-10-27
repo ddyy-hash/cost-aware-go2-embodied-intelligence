@@ -1,0 +1,25 @@
+[Unit]
+Description=Go2 mission navigation bridge
+After=network-online.target tailscaled.service
+Wants=network-online.target tailscaled.service
+
+[Service]
+Type=simple
+Environment=GO2_MAPPING_RUNTIME_DIR=%h/go2_mapping/runtime
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_NAVIGATION_ROOT=%h/go2_mapping/runtime/navigation
+Environment=GO2_MAPPING_NAV2_WS=%h/go2_mapping/runtime/nav2_ws
+Environment=GO2_MAPPING_NAVIGATION_POLL_SECONDS=1.0
+Environment=GO2_MAPPING_NAVIGATION_TIMEOUT_SECONDS=8.0
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_nav_bridge.sh
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+UMask=0077
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

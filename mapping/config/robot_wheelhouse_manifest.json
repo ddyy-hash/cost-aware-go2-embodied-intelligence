@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "asset_type": "robot_python_wheelhouse",
+  "target": "cp38-manylinux2014_aarch64",
+  "install_mode": "offline_no_index",
+  "wheels": [
+    {"distribution": "PyYAML", "version": "6.0.2", "filename": "PyYAML-6.0.2-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", "bytes": 728067, "sha256": "d7fded462629cfa4b685c5416b949ebad6cec74af5e2d42905d41e257e0869f5"},
+    {"distribution": "zstandard", "version": "0.23.0", "filename": "zstandard-0.23.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", "bytes": 4944817, "sha256": "e2d1a054f8f0a191004675755448d12be47fa9bebbcffa3cdf01db19f2d30a54"},
+    {"distribution": "mcap", "version": "1.2.1", "filename": "mcap-1.2.1-py3-none-any.whl", "bytes": 20212, "sha256": "e55804906e4a60cef90840e5755fa1002420ec59bddb7ea01cdc7e15d5331cdf"},
+    {"distribution": "psutil", "version": "6.1.1", "filename": "psutil-6.1.1-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", "bytes": 289017, "sha256": "33431e84fee02bc84ea36d9e2c4a6d395d479c9dd9bba2376c1f6ee8f3a4e0b3"},
+    {"distribution": "websocket-client", "version": "1.8.0", "filename": "websocket_client-1.8.0-py3-none-any.whl", "bytes": 58826, "sha256": "17b44cc997f5c498e809b22cdf2d9c7a9e71c02c8cc2b6c56e7c2d1239bfa526"}
+  ]
+}

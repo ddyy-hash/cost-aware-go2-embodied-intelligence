@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: Cost-Aware Edge-Cloud Embodied Intelligence for Go2
+message: If you use this repository in research or a portfolio, please cite it.
+type: software
+authors:
+  - family-names: Ding
+    given-names: Yu
+version: 0.1.0
+date-released: 2026-10-27
+repository-code: https://github.com/ddy-hash/cost-aware-go2-embodied-intelligence
+abstract: >-
+  A ROS 2 research and reproducibility package for cost-aware edge-cloud
+  mapping, semantic navigation, MobileVLA intent adaptation, and safety-gated
+  terrain replay on Unitree Go2.

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "asset_type": "go2_locomotion_backend_registry",
+  "robot": "unitree_go2",
+  "control_boundary": {
+    "vla_may_select_task": true,
+    "vla_may_emit_joint_commands": false,
+    "dashboard_may_emit_joint_commands": false,
+    "backend_must_pass_supervisor": true,
+    "maximum_requested_speed_mps": 0.12,
+    "hardware_validation": "REQUIRED_BEFORE_ACTUATION"
+  },
+  "backends": [
+    {
+      "id": "pgtt-go2",
+      "upstream": "https://github.com/NtagkasAlex/phase_guided_terrain_traversal",
+      "commit": "9bd133884bbf2eeaa40c82aee534246ccaaf02f8",
+      "role": "PRIMARY_TERRAIN_POLICY_REFERENCE",
+      "inputs": ["heightmap", "imu", "joint_state", "command"],
+      "deployment": "unitree_sdk2py",
+      "terrain": ["stairs", "discrete_obstacles", "rough_terrain"],
+      "status": "ADAPTER_REQUIRED",
+      "checkpoint_manifest": "mapping/config/pgtt_go2_level03_manifest.json"
+    },
+    {
+      "id": "genesis-go2",
+      "upstream": "https://github.com/saifahmadgit/go2-sim2real-locomotion-rl",
+      "commit": "0830f3e3582acd5c9b3a5c09186d4f028f54d9dd",
+      "role": "SIM2REAL_TRAINING_REFERENCE",
+      "inputs": ["imu", "joint_state", "last_action", "command"],
+      "deployment": "companion_deployment_repository",
+      "terrain": ["stairs", "rough_terrain"],
+      "status": "DISABLED_ARCHIVE_ONLY",
+      "enabled": false,
+      "checkpoint_manifest": "mapping/config/genesis_go2_stair_manifest.json"
+    },
+    {
+      "id": "unitree-rl-gym",
+      "upstream": "https://github.com/unitreerobotics/unitree_rl_gym",
+      "commit": "276801e46c5d433564f24658bac64f254b7d2d4b",
+      "role": "OFFICIAL_TRAINING_BASELINE",
+      "inputs": ["imu", "joint_state", "command"],
+      "deployment": "unitree_sdk2",
+      "terrain": ["flat", "rough_terrain"],
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "walk-these-ways-go2",
+      "upstream": "https://github.com/Teddy-Liao/walk-these-ways-go2",
+      "commit": "d00320778c61567379b4a304047955c0dcae43",
+      "role": "PC_DEPLOYMENT_REFERENCE",
+      "inputs": ["imu", "joint_state", "command", "joystick"],
+      "deployment": "unitree_sdk2_lcm_bridge",
+      "terrain": ["flat", "rough_terrain"],
+      "status": "PC_ONLY_REFERENCE"
+    }
+  ]
+}

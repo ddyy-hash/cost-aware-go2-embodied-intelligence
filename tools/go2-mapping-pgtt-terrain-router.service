@@ -1,0 +1,15 @@
+[Unit]
+Description=Go2 read-only automatic PGTT terrain router
+After=network-online.target go2-mapping-pgtt-heightmap.service
+Wants=network-online.target go2-mapping-pgtt-heightmap.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/unitree/go2_mapping/current
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/bin/bash /home/unitree/go2_mapping/current/tools/start_go2_pgtt_terrain_router.sh
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

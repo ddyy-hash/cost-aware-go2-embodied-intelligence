@@ -1,0 +1,21 @@
+[Unit]
+Description=Go2 person follow standby service
+Wants=network-online.target
+After=network-online.target systemd-udev-settle.service
+
+[Service]
+Type=simple
+User=unitree
+Group=unitree
+WorkingDirectory=/home/unitree/go2_follow_ws
+Environment=HOME=/home/unitree
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ExecStartPre=/bin/sleep 8
+ExecStart=/home/unitree/go2_person_follow/tools/start_follow_autostart.sh
+KillSignal=SIGINT
+TimeoutStopSec=20
+Restart=always
+RestartSec=8
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,61 @@
+transport:
+  protocol: tailnet_direct_http
+  encryption: tailscale_wireguard
+  lan_only: false
+  control_plane: tailscale
+  receiver:
+    pc_tailnet: "<PC_TAILNET_IP>:8000"
+    allowed_robot: "<ROBOT_TAILNET_IP>"
+  relay:
+    preferred_region_id: 0
+    selection: direct_first_measured_fallback
+    region_code: "<RELAY_REGION>"
+    public_endpoint: runtime_discovered_from_autodl_container
+    official_regions_fallback: true
+    stun_data_plane: false
+
+dual_queue:
+  probe_ceiling_mbps: 30
+  bootstrap_total_mbps: 4.0
+  allocation_state_ttl_s: 30
+  preview:
+    allocation: realtime_priority_measured_demand
+    semantics: ordered_reliable_backpressure_no_selective_rgbd_or_lidar_drop
+    bootstrap_mbps: 1.0
+    payload: pose_sparse_lidar_rgbd_health
+  high_fidelity:
+    allocation: remaining_measured_capacity
+    semantics: durable_resumable_checksum_verified
+    measurement_chunk_kib: 8192
+    probe_chunk_kib: 256
+    parallel_workers: 4
+    unthrottled_probe_interval_s: 30
+    rotate_max_bytes: 8388608
+    payload: raw_lidar_imu_rgbd_camera_info_lio_pose
+    release_policy: delete_robot_artifact_only_after_pc_reconstruction_ingested
+
+keyframes:
+  detail_target_hz: 5
+  detail_minimum_hz: 1
+  surface_cell_m: 0.005
+  complete_message_limit_bytes: 4194304
+  source_policy: all_occupied_surface_cells_no_global_stride
+  lidar_source: /lio_sam_ros2/deskew/cloud_deskewed
+  points_in_map_frame: false
+  pose_cloud_max_skew_ms: 100
+  sustained_budget_mib_s: 15
+  burst_budget_mib_s: 35
+  minimum_goodput_mbps: 150
+  maximum_recovery_latency_ms: 500
+
+degradation_order:
+  - rgb_resolution
+  - depth_keyframe_cadence
+  - lidar_keyframe_cadence
+
+never_drop:
+  - lio_pose
+  - rgb_preview
+  - depth_preview
+  - lidar_preview
+  - local_raw_recording

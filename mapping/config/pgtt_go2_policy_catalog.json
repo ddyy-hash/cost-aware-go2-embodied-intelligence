@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "asset_type": "pgtt_go2_policy_catalog",
+  "robot": "unitree_go2",
+  "source_commit": "9bd133884bbf2eeaa40c82aee534246ccaaf02f8",
+  "policy_contract": {"input_size": 153, "action_size": 12, "heightmap_shape": [11, 9], "control_frequency_hz": 50, "action_scale": 0.5},
+  "policies": [
+    {"level": "03", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level03_run0.npz", "source_checkpoint": "policy_go2_pgtt_level03_run0", "source_sha256": "bc1175d241044400fd2d975642bbe44e1e19fcde0da9b159522ead01d4e39189", "sha256": "f3fe6655e9fa13e06ecccf13bf1aa13b5e62de50be4539781ac7a360b97fbedd", "input_size": 153, "action_size": 12},
+    {"level": "07", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level07_run0.npz", "source_checkpoint": "policy_go2_pgtt_level07_run0", "source_sha256": "bd4de17146d9189b14bb18e391f3c18bfc2206b374ffd10fa14c44f5bb5ade19", "sha256": "02940e033a08fec97473cfd36d279d5854a38a3679145162d8c7149c74a4e9e3", "input_size": 153, "action_size": 12},
+    {"level": "10", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level10_run0.npz", "source_checkpoint": "policy_go2_pgtt_level10_run0", "source_sha256": "af9218e01d6060c9482af1db4100c78de13abafa18ab29f0c851f7267fe83b78", "sha256": "749e8a927fb51a3853e78919deb9bae6bac217b205d74231433fc6c676ee6502", "input_size": 153, "action_size": 12},
+    {"level": "13", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level13_run0.npz", "source_checkpoint": "policy_go2_pgtt_level13_run0", "source_sha256": "7044504691b56ceb2caebb1a0db1805e692eebb3bf7c1e380845798ea8dd766a", "sha256": "45e6a294880f705ad98113479f3830a1107fbc5e74c4adf033b7ea4a17aa8f4e", "input_size": 153, "action_size": 12},
+    {"level": "17", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level17_run0.npz", "source_checkpoint": "policy_go2_pgtt_level17_run0", "source_sha256": "c20952d409ed48aa5672c7df4fad12b1520d49ed414333a48731ca15a3c75611", "sha256": "dd3c84acfa982253913f7c99d83a877b565a156358b12f773e8c042efd82299c", "input_size": 153, "action_size": 12},
+    {"level": "20", "run": 0, "path": "output/robot-release/pgtt-go2/policy_level20_run0.npz", "source_checkpoint": "policy_go2_pgtt_level20_run0", "source_sha256": "1f1db2f62d72cad75b63eac7385db328681f414f6b2bdbb79a4743d322d75c89", "sha256": "b416a2112aebab81b846f4a5dcefed977f362aa6cf37ac7ede45c17b2dda96fd", "input_size": 153, "action_size": 12}
+  ],
+  "execution_policy": "catalog_selection_only_requires_supervisor_and_hardware_gate"
+}

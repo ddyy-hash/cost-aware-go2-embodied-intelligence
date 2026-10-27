@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "asset_type": "pc_model_weights",
+  "model_id": "Depth-Anything-V2-Small-hf",
+  "source_revision": "5426e4f0f36572d16453bbda7a8389317b1bef99",
+  "relative_path": "models/depth-anything-v2-small-hf-5426e4f",
+  "directory_sha256": "37a91a613d005c92f71e6b0caf2790c112ab06a7794fd2fa275521be14510137",
+  "file_count": 3,
+  "total_bytes": 99175385,
+  "files": [
+    {"path": "config.json", "bytes": 950, "sha256": "c56698d3643dde1f83ea2212759e6b31a22b8f827246a36dd007ee8a22b3ff75"},
+    {"path": "model.safetensors", "bytes": 99173660, "sha256": "3152477ce0d8d6978d76b995120de97cb5b928701fd0f817769f59e249a16b70"},
+    {"path": "preprocessor_config.json", "bytes": 775, "sha256": "d41175c0d889477ca8fc67191e540faef14baf6275157b3fdecf78469e6bbf84"}
+  ],
+  "runtime": {
+    "backend": "transformers",
+    "device": "cuda",
+    "precision": "float16",
+    "local_files_only": true,
+    "measurement_authority": false
+  }
+}

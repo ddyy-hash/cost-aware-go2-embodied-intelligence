@@ -1,0 +1,22 @@
+[Unit]
+Description=Go2 Tailscale-native mapping session control
+After=network-online.target tailscaled.service
+Wants=network-online.target tailscaled.service
+
+[Service]
+Type=simple
+EnvironmentFile=%h/go2_mapping/runtime/session-control.env
+ExecStart=/usr/bin/python3 %h/go2_mapping/current/mapping/robot/go2_mapping_lio/go2_mapping_lio/session_control.py --bind ${GO2_SESSION_CONTROL_BIND} --allow-peer ${GO2_SESSION_CONTROL_ALLOW_PEER} --token-file %h/go2_mapping/runtime/session-control-token --runtime-dir %h/go2_mapping/runtime/session-control --port ${GO2_SESSION_CONTROL_PORT}
+Environment=GO2_MAPPING_SESSION_CONTROL_RUNTIME=%h/go2_mapping/runtime/session-control
+Environment=PYTHONPATH=%h/go2_mapping/current
+ReadWritePaths=%h/go2_mapping/runtime
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+UMask=0077
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

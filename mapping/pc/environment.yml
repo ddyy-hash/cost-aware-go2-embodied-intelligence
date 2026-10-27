@@ -1,0 +1,31 @@
+name: go2-mapping-pc
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy=1.26.*
+  - scipy=1.13.*
+  - open3d=0.18.*
+  - gtsam=4.2.*
+  - ifcopenshell=0.8.*
+  - pyyaml=6.*
+  - zstandard=0.23.*
+  - mcap=1.2.*
+  - pytest=8.*
+  - fastapi=0.115.*
+  - uvicorn=0.34.*
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - torch==2.7.1+cu128
+      - torchvision==0.22.1+cu128
+      - transformers==4.53.2
+      - safetensors==0.5.3
+      - Pillow==12.3.0
+      - xatlas==0.0.11
+      - pygltflib==1.16.5
+      - trimesh==4.7.1
+      - gsplat==1.4.0
+      - nerfstudio==1.1.5
+      - fastapi==0.115.*
+      - uvicorn[standard]==0.30.*

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "status": "provisional",
+  "purpose": "calibration_capture",
+  "calibration_id": "PROVISIONAL_AUTOCAL_PENDING_v1",
+  "geometry_authority": false,
+  "appearance_authority": false,
+  "acceptance_authority": false
+}

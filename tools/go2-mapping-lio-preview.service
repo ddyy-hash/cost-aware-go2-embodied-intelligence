@@ -1,0 +1,21 @@
+[Unit]
+Description=Go2 mapping observation-only LIO preview
+After=go2-mapping-pointcloud-bridge.service go2-mapping-lowstate-imu.service
+Requires=go2-mapping-pointcloud-bridge.service go2-mapping-lowstate-imu.service
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_LIO_TARGET_FRAME=odom
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_lio_preview.sh
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

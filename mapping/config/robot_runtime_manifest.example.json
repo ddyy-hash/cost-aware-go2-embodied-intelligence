@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "asset_type": "go2_robot_runtime",
+  "target": "unitree-go2-python38-ros-foxy",
+  "runtime_boundaries": {
+    "coordinate_scope": "SESSION_ODOM_LOCAL",
+    "measurement_authority": false,
+    "locomotion_authority": false,
+    "offline_install_only": true
+  },
+  "notes": [
+    "Generate a machine-specific manifest from the deployment scripts.",
+    "Do not commit device serials, private addresses, tokens, or local wheelhouse paths."
+  ]
+}

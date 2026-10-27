@@ -1,0 +1,28 @@
+[Unit]
+Description=Go2 mapping sensor-only RealSense owner
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_CAMERA_NAME=camera
+Environment=GO2_MAPPING_CAMERA_ENABLE_COLOR=true
+Environment=GO2_MAPPING_CAMERA_ENABLE_DEPTH=true
+Environment=GO2_MAPPING_CAMERA_ALIGN_DEPTH=true
+Environment=GO2_MAPPING_CAMERA_ENABLE_INFRA1=false
+Environment=GO2_MAPPING_CAMERA_ENABLE_INFRA2=false
+Environment=GO2_MAPPING_CAMERA_ENABLE_FISHEYE1=false
+Environment=GO2_MAPPING_CAMERA_ENABLE_FISHEYE2=false
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_realsense_sensor.sh
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

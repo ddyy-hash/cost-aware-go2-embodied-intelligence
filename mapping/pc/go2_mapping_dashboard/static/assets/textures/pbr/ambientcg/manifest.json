@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "source": "ambientCG",
+  "source_url": "https://ambientcg.com/",
+  "license": "CC0-1.0",
+  "license_url": "https://ambientcg.com/license",
+  "download_profile": "1K-JPG",
+  "materials": [
+    {
+      "id": "wood",
+      "asset_id": "WoodFloor040",
+      "label": "木地板",
+      "source_url": "https://ambientcg.com/a/WoodFloor040",
+      "download_url": "https://ambientcg.com/get?file=WoodFloor040_1K-JPG.zip",
+      "archive_sha256": "c83a01f1733f2a1f6e95ad6703689eb12fe259e77245d4c0a5652728d07c87cb",
+      "real_size_m": [1.9, 1.9],
+      "maps": {
+        "color": {"file": "WoodFloor040/Color.jpg", "sha256": "2bf98c767ef184c0dbe0666f6a6bfdd22c637cc2816070dcb701d916cc9bcee9"},
+        "normal_gl": {"file": "WoodFloor040/NormalGL.jpg", "sha256": "90d3b4ef0328f6cabf16b40eacc4fa7a03764f14a4b474da057d0ce23e6722c2"},
+        "roughness": {"file": "WoodFloor040/Roughness.jpg", "sha256": "2a396afced041d372218eaa881ba3157b9105f035826b22cf63cf2b65d82c081"}
+      }
+    },
+    {
+      "id": "tile",
+      "asset_id": "Tiles074",
+      "label": "浅色地砖",
+      "source_url": "https://ambientcg.com/a/Tiles074",
+      "download_url": "https://ambientcg.com/get?file=Tiles074_1K-JPG.zip",
+      "archive_sha256": "28a40cb36d3c265f17c798c52aa3ea7cdcb8c949b80c49692b0a855e9637c677",
+      "real_size_m": [2.1, 2.1],
+      "maps": {
+        "color": {"file": "Tiles074/Color.jpg", "sha256": "cd7011b8c21e0ef4b8ee979ea2ff1a89c5b07b19f570a6dfc5ad26b3bca24857"},
+        "normal_gl": {"file": "Tiles074/NormalGL.jpg", "sha256": "4d0de18fa8802fefc8d7335c5af264d6b932bf34f2be96d38e99f9573b018399"},
+        "roughness": {"file": "Tiles074/Roughness.jpg", "sha256": "8995bd151ebd2a5cc767eb2ca848b9c446b9d47510a0685e5fe7e2226e52e22a"}
+      }
+    },
+    {
+      "id": "concrete",
+      "asset_id": "Concrete034",
+      "label": "混凝土",
+      "source_url": "https://ambientcg.com/a/Concrete034",
+      "download_url": "https://ambientcg.com/get?file=Concrete034_1K-JPG.zip",
+      "archive_sha256": "5839d284d94ffb8d2a56df742ec522b13dd311c52dbd42b8fd33f0409ceedb81",
+      "real_size_m": [1.1, 0.55],
+      "maps": {
+        "color": {"file": "Concrete034/Color.jpg", "sha256": "8ceb9186d990b31fce785e06fdc6974c160f1d27c43f6160266f164deba713aa"},
+        "normal_gl": {"file": "Concrete034/NormalGL.jpg", "sha256": "e509eb9dfa978e780fbebfd2acacc2ce158b5b7ced722ddc0759039dd51e18ca"},
+        "roughness": {"file": "Concrete034/Roughness.jpg", "sha256": "a4a9e39857a19afd23a778e5abf44fcdf6bd7f93918f1cf6878b41933e553511"}
+      }
+    },
+    {
+      "id": "carpet",
+      "asset_id": "Carpet001",
+      "label": "织物地毯",
+      "source_url": "https://ambientcg.com/a/Carpet001",
+      "download_url": "https://ambientcg.com/get?file=Carpet001_1K-JPG.zip",
+      "archive_sha256": "f06d551e40d4d4d31a84df310bad2a1ec70753cd330342c7d8bcff3587fccbd1",
+      "real_size_m": [1.0, 1.0],
+      "real_size_source": "VISUAL_REPEAT_PRIOR_OFFICIAL_SIZE_UNAVAILABLE",
+      "maps": {
+        "color": {"file": "Carpet001/Color.jpg", "sha256": "603b24064bfbee2f8ac03903592be397f485a793ab6359630641ce9a446ac3dd"},
+        "normal_gl": {"file": "Carpet001/NormalGL.jpg", "sha256": "0cec36dbf2cfb24f16c82834c0bd8fd9a81f6ed686bb4e7ed1a5dc5239522a3c"},
+        "roughness": {"file": "Carpet001/Roughness.jpg", "sha256": "f1311c8096b3f75bca3f427bb38fef74ffff74c52809b448137a2869096eb324"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+# Go2 indoor LIO preview profile.
+#
+# The installed Unitree lio_sam_ros2 runtime consumes the observed ROS topics
+# directly. Its LiDAR-to-IMU transform below was inherited from the vendor's
+# existing MID-360 profile and is intentionally *provisional*. This profile is
+# suitable only for a live navigation/coverage preview. Do not use its output
+# as a centimetre-grade or CAD-aligned deliverable until the extrinsic and time
+# calibration are measured, versioned, and independently accepted.
+/**:
+  ros__parameters:
+    # This is a live-only Livox CustomMsg derived from the host-clock-aligned
+    # PointCloud2 copy. The raw /livox/lidar stream remains source-stamped and
+    # is recorded unchanged for offline calibration and reconstruction.
+    pointCloudTopic: "/go2/lio/livox"
+    imuTopic: "/dog_imu_raw"
+    odomTopic: "/odometry/imu"
+    gpsTopic: "/odometry/gps"
+
+    robotFrame: "robot_center"
+    lidarFrame: "utlidar_lidar"
+    baselinkFrame: "utlidar_lidar"
+    odometryFrame: "odom"
+    # SESSION_ODOM_LOCAL is the production room-scan scope; do not invent a
+    # global map->odom transform on the robot.
+    mapFrame: "odom"
+    robot_id: "go2"
+
+    # Raw ROS bags are the authoritative high-fidelity record. Keeping this
+    # false avoids LIO-SAM's legacy PCD deletion/write path on the robot.
+    savePCD: false
+    savePCDDirectory: "/home/unitree/go2-mapping-data/lio-preview/"
+
+    sensor: "livox"
+    N_SCAN: 4
+    Horizon_SCAN: 6000
+    timeField: "time"
+    downsampleRate: 1
+    lidarMinRange: 0.5
+    lidarMaxRange: 20.0
+    removeWidth: 0.1
+    removeHeight: 0.1
+
+    imuAccNoise: 0.0039939570888238808
+    imuGyrNoise: 0.0015636343949698187
+    imuAccBiasN: 0.00006435665935355257
+    imuGyrBiasN: 0.00003564031769861761
+    imuGravity: 9.80511
+    imuRPYWeight: 0.1
+    imuTimeDelay: 0.0
+
+    # PROVISIONAL ONLY: vendor-installed MID-360 profile. A measured
+    # calibration must replace this before a map is promoted beyond preview.
+    extrinsicTrans: [-0.16, 0.0, -0.13]
+    extrinsicRot: [1.0, 0.0, 0.0,
+                   0.0, 1.0, 0.0,
+                   0.0, 0.0, 1.0]
+    extrinsicRPY: [1.0, 0.0, 0.0,
+                   0.0, 1.0, 0.0,
+                   0.0, 0.0, 1.0]
+    imuTolidar: [-0.16, 0.0, -0.13]
+
+    edgeThreshold: 1.0
+    surfThreshold: 0.1
+    # The installed optimizer accepted a ten-edge wall frame and then aborted
+    # with an underconstrained GTSAM b0 system. Wait for richer geometry.
+    edgeFeatureMinValidNum: 20
+    surfFeatureMinValidNum: 100
+    odometrySurfLeafSize: 0.1
+    mappingCornerLeafSize: 0.05
+    mappingSurfLeafSize: 0.1
+
+    z_tollerance: 1000.0
+    rotation_tollerance: 1000.0
+    numberOfCores: 4
+    mappingProcessInterval: 0.15
+    surroundingkeyframeAddingDistThreshold: 0.5
+    surroundingkeyframeAddingAngleThreshold: 0.1
+    surroundingKeyframeDensity: 2.0
+    surroundingKeyframeSearchRadius: 50.0
+
+    loopClosureEnableFlag: true
+    loopClosureFrequency: 1.0
+    surroundingKeyframeSize: 50
+    historyKeyframeSearchRadius: 1.5
+    historyKeyframeSearchTimeDiff: 30.0
+    historyKeyframeSearchNum: 25
+    historyKeyframeFitnessScore: 0.3
+
+    globalMapVisualizationSearchRadius: 1000.0
+    globalMapVisualizationPoseDensity: 10.0
+    globalMapVisualizationLeafSize: 1.0
+    multiple_floors: false

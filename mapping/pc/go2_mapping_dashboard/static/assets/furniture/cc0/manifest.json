@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "license_file": "LICENSE-CC0-1.0.txt",
+  "license_file_sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+  "source_catalog": "Poly Pizza",
+  "source_catalog_url": "https://poly.pizza/",
+  "assets": [
+    {
+      "kind": "chair",
+      "title": "Chair",
+      "creator": "Quaternius",
+      "public_id": "iMNqRzPwwe",
+      "resource_id": "84ecc6a3-2751-4f50-912a-b9f4ff033d7a",
+      "source_url": "https://poly.pizza/m/iMNqRzPwwe",
+      "download_url": "https://static.poly.pizza/84ecc6a3-2751-4f50-912a-b9f4ff033d7a.glb",
+      "file": "chair-quaternius.glb",
+      "bytes": 13360,
+      "sha256": "bdc6aeeb64524bbdccba2f079e6485e2a372aed1c428d976d5da67aadcf18b7a"
+    },
+    {
+      "kind": "bed",
+      "title": "Bed Single",
+      "creator": "Kenney",
+      "public_id": "sn8az3odMR",
+      "resource_id": "412f5303-86bc-48b2-aaeb-99393c0a4004",
+      "source_url": "https://poly.pizza/m/sn8az3odMR",
+      "download_url": "https://static.poly.pizza/412f5303-86bc-48b2-aaeb-99393c0a4004.glb",
+      "file": "bed-single-kenney.glb",
+      "bytes": 27684,
+      "sha256": "23c5c32096840f3dd347b1c68029d2f50e2af468ccd38daa33b494f1943b3dc8"
+    },
+    {
+      "kind": "table",
+      "title": "Small Table",
+      "creator": "Quaternius",
+      "public_id": "rAEBvfb1FT",
+      "resource_id": "0f319f3b-b0d6-4691-bae5-c6c6e612df99",
+      "source_url": "https://poly.pizza/m/rAEBvfb1FT",
+      "download_url": "https://static.poly.pizza/0f319f3b-b0d6-4691-bae5-c6c6e612df99.glb",
+      "file": "table-small-quaternius.glb",
+      "bytes": 46168,
+      "sha256": "fd3c98a8293913697b3942d74897263d27352bd1ec4513aa3489f6e1470e59f9"
+    },
+    {
+      "kind": "cabinet",
+      "title": "Cabinet",
+      "creator": "CreativeTrio",
+      "public_id": "wOiMrnUuhe",
+      "resource_id": "57d9a5e8-3130-42eb-b436-28e1586facc0",
+      "source_url": "https://poly.pizza/m/wOiMrnUuhe",
+      "download_url": "https://static.poly.pizza/57d9a5e8-3130-42eb-b436-28e1586facc0.glb",
+      "file": "cabinet-creativetrio.glb",
+      "bytes": 30936,
+      "sha256": "e5226312183a51c5027f6e6c2e46873c0b0a7b3c9b4ff334c02cb03954b1b944"
+    },
+    {
+      "kind": "plant",
+      "title": "Houseplant",
+      "creator": "Quaternius",
+      "public_id": "bfLOqIV5uP",
+      "resource_id": "1683c0b1-4dd9-4d45-910e-cf3e46f163f5",
+      "source_url": "https://poly.pizza/m/bfLOqIV5uP",
+      "download_url": "https://static.poly.pizza/1683c0b1-4dd9-4d45-910e-cf3e46f163f5.glb",
+      "file": "houseplant-quaternius.glb",
+      "bytes": 16636,
+      "sha256": "0de1daa8be12b908fb8d1bf6bd9261e2a50061783e2ebe204bfb434768ca7c53"
+    }
+  ]
+}

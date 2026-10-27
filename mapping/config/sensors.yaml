@@ -1,0 +1,38 @@
+frames:
+  lidar: base_link
+  imu: robot_center
+  camera_color: camera_color_optical_frame
+  camera_depth: camera_depth_optical_frame
+  base_link: base_link
+  odom: odom
+  as_built_map: as_built_map
+  design_bim: design_bim
+topics:
+  lidar: /livox/lidar
+  lio_deskewed_cloud: /lio_sam_ros2/deskew/cloud_deskewed
+  lio_registered_cloud: /lio_sam_ros2/mapping/cloud_registered
+  lio_mapping_odometry: /lio_sam_ros2/mapping/odometry
+  lio_global_map: /go2/mapping/map_cloud
+  imu: /dog_imu_raw
+  color: /camera/color/image_raw
+  depth: /camera/depth/image_rect_raw
+  aligned_depth_to_color: /camera/aligned_depth_to_color/image_raw
+  camera_info: /camera/color/camera_info
+time_quality:
+  lidar_imu_max_residual_ms: 1
+  camera_lidar_max_residual_ms: 5
+calibration:
+  require_versioned_extrinsics: true
+  require_intrinsics: true
+  reject_unversioned_frames: true
+preview_camera_assist:
+  enabled: true
+  color_topic: /camera/color/image_raw
+  aligned_depth_topic: /camera/aligned_depth_to_color/image_raw
+  camera_info_topic: /camera/color/camera_info
+  max_hz: 1
+  max_width: 320
+  max_height: 240
+  max_arrival_skew_ms: 120
+  unaligned_depth_max_age_ms: 1000
+  depth_scale_m: 0.001

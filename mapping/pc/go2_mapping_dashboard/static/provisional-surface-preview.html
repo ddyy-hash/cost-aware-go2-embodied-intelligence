@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GO2 RGB-D Surface Evidence</title>
+  <link rel="stylesheet" href="/static/provisional-surface-preview.css">
+</head>
+<body>
+  <main class="preview-shell">
+    <header class="preview-header">
+      <div>
+        <p class="eyebrow">GO2 / SURFACE EVIDENCE INSPECTOR</p>
+        <h1>RGB-D Surface Evidence</h1>
+      </div>
+      <strong id="verification-state" class="verification-state" data-state="VERIFYING">VERIFYING</strong>
+    </header>
+
+    <section class="authority-strip" aria-label="Persistent preview authority boundary">
+      <strong>PROVISIONAL / UNCALIBRATED RGB-D COLOR PREVIEW</strong>
+      <span>NOT FINAL TEXTURE</span>
+      <span>NOT MEASUREMENT AUTHORITY</span>
+    </section>
+
+    <section class="preview-workspace" aria-label="Provisional RGB-D surface inspection">
+      <section class="surface-stage" aria-label="Read-only LiDAR surface with verified provisional RGB-D colors">
+        <canvas id="surface-canvas"></canvas>
+        <div class="stage-label">READ-ONLY OBSERVED LIDAR / METERS</div>
+        <div id="surface-status" class="surface-status" data-level="pending">VALIDATING CURRENT SURFACE</div>
+        <div class="view-tools" role="toolbar" aria-label="Surface view controls">
+          <div class="projection-control" role="group" aria-label="Surface projection">
+            <button id="top-view" type="button" aria-pressed="false" title="Top surface view">Top</button>
+            <button id="three-view" type="button" aria-pressed="true" title="Three dimensional surface view">3D</button>
+          </div>
+          <button id="reset-view" type="button" title="Reset surface view">Reset</button>
+          <button id="reload-evidence" type="button" title="Reload surface evidence">Reload</button>
+        </div>
+        <div class="surface-legend" aria-label="Surface color legend">
+          <span><i class="legend-neutral"></i> neutral LiDAR vertex</span>
+          <span><i class="legend-rgbd"></i> verified provisional RGB-D sample</span>
+        </div>
+        <div id="surface-empty" class="surface-empty">AWAITING VERIFIED LIDAR SURFACE</div>
+      </section>
+
+      <aside class="evidence-panel" aria-label="Preview provenance verification">
+        <section>
+          <p class="panel-kicker">VERIFICATION</p>
+          <h2 id="evidence-title">Current Surface</h2>
+          <dl class="evidence-grid">
+            <div><dt>STATE</dt><dd id="evidence-state">VERIFYING</dd></div>
+            <div><dt>SESSION</dt><dd id="evidence-session">--</dd></div>
+            <div><dt>VERTICES</dt><dd id="evidence-vertices">--</dd></div>
+            <div><dt>COLORED</dt><dd id="evidence-colored">--</dd></div>
+            <div><dt>COVERAGE</dt><dd id="evidence-coverage">--</dd></div>
+            <div><dt>SOURCE PARTS</dt><dd id="evidence-artifacts">--</dd></div>
+          </dl>
+        </section>
+
+        <section class="identity-section">
+          <p class="panel-kicker">IDENTITY</p>
+          <dl class="identity-list">
+            <div><dt>SURFACE SHA-256</dt><dd id="surface-sha">--</dd></div>
+            <div><dt>GEOMETRY REVISION</dt><dd id="geometry-revision">--</dd></div>
+            <div><dt>PREVIEW REVISION</dt><dd id="preview-revision">--</dd></div>
+            <div><dt>SIDECAR SHA-256</dt><dd id="sidecar-sha">--</dd></div>
+          </dl>
+        </section>
+
+        <section class="authority-section">
+          <p class="panel-kicker">AUTHORITY</p>
+          <dl class="identity-list">
+            <div><dt>GEOMETRY</dt><dd>LIDAR_MEASURED / READ-ONLY</dd></div>
+            <div><dt>RUNTIME PROJECTION</dt><dd id="projection-state">PENDING</dd></div>
+            <div><dt>CALIBRATION</dt><dd>NOT MEASUREMENT AUTHORITY</dd></div>
+            <div><dt>DELIVERY</dt><dd>NOT AUTHORIZED</dd></div>
+          </dl>
+          <p id="blocker-list" class="blocker-list">PROVENANCE VALIDATION PENDING</p>
+        </section>
+      </aside>
+    </section>
+
+    <footer class="preview-footer">
+      <span>OFFICIAL DASHBOARD STATIC ROUTE / TAILSCALE</span>
+      <span id="updated-at">--:--:--</span>
+    </footer>
+  </main>
+  <script type="module" src="/static/provisional-surface-preview.js"></script>
+</body>
+</html>

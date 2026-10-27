@@ -1,0 +1,3 @@
+# Isaac Sim is isolated from the authoritative go2-mapping-pc environment.
+--extra-index-url https://pypi.nvidia.com
+isaacsim[all,extscache]==6.0.1.0

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "asset_type": "pgtt_go2_policy",
+  "upstream": "https://github.com/NtagkasAlex/phase_guided_terrain_traversal",
+  "upstream_commit": "9bd133884bbf2eeaa40c82aee534246ccaaf02f8",
+  "policy_file": "models/pgtt-go2/policy_go2_pgtt_level03_run0",
+  "sha256": "bc1175d241044400fd2d975642bbe44e1e19fcde0da9b159522ead01d4e39189",
+  "robot": "unitree_go2",
+  "method": "pgtt",
+  "terrain_level": "level03",
+  "input_size": 153,
+  "action_size": 12,
+  "heightmap_shape": [11, 9],
+  "control_frequency_hz": 50,
+  "action_scale": 0.5,
+  "local_files_only": true,
+  "hardware_activation": "REQUIRES_EXPLICIT_GO2_GATE"
+}

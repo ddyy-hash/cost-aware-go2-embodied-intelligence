@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "algorithm_version": "measured-fusion-v1",
+  "filtering": {
+    "minimum_range_m": 0.3,
+    "maximum_range_m": 15.0,
+    "radius_m": 0.05,
+    "radius_min_neighbors": 2,
+    "statistical_neighbor_count": 16,
+    "statistical_stddev_multiplier": 1.5
+  },
+  "measured_promotion": {
+    "minimum_observations": 3,
+    "minimum_independent_views": 2,
+    "minimum_temporal_support_s": 0.5,
+    "maximum_principal_stddev_m": 0.02,
+    "maximum_point_to_plane_p95_m": 0.03,
+    "minimum_static_probability": 0.8
+  },
+  "independent_view": {
+    "minimum_origin_baseline_m": 0.2,
+    "minimum_direction_separation_deg": 10.0
+  },
+  "dynamic_evidence": {
+    "minimum_votes": 5,
+    "unstable_free_space_fraction": 0.2,
+    "rejected_unstable_generations": 3
+  },
+  "stability": {
+    "minimum_measured_coverage": 0.8,
+    "maximum_generation_rms_change_m": 0.005,
+    "settled_generation_count": 2
+  },
+  "metric_domain": {
+    "eligible_minimum_observations": 2,
+    "depth_tile_size_m": 0.5
+  },
+  "surfacing": {
+    "voxel_size_m": 0.015,
+    "display_point_budget": 200000,
+    "display_triangle_budget": 300000
+  }
+}

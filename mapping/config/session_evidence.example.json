@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "calibration_id": "MUST_MATCH_SCHEMA_V2_CALIBRATION_MANIFEST",
+  "raw_capture": {
+    "sha256_verified": false,
+    "artifact_count": 0,
+    "artifact_sha256": [],
+    "required_streams": []
+  },
+  "reconstruction_identity": {
+    "pose_generation": null,
+    "fusion_config_sha256": null,
+    "appearance_config_sha256": null,
+    "roi_sha256": null,
+    "mask_sha256": null,
+    "algorithm_version": null
+  },
+  "derived_product_contract": {
+    "measured_fusion": {
+      "owner": "LIDAR_MEASURED",
+      "cache_key": null,
+      "invalidates_on": ["raw_artifact", "pose_generation", "fusion_config", "roi", "mask", "algorithm"]
+    },
+    "calibration": {
+      "owner": "CAMERA_LIDAR_CALIBRATION",
+      "cache_key": null,
+      "invalidates_on": ["capture", "target", "camera_info", "tf", "solver", "clock_fit"]
+    },
+    "depth_validation": {
+      "owner": "DEPTH_VALIDATION",
+      "cache_key": null,
+      "invalidates_on": ["measured_generation", "calibration", "appearance_config"]
+    },
+    "texture": {
+      "owner": "CALIBRATED_TEXTURE",
+      "cache_key": null,
+      "invalidates_on": ["measured_generation", "depth_validation", "calibration", "appearance_config", "roi", "mask", "algorithm"]
+    },
+    "augmentation": {
+      "owner": "RGBD_AUGMENTED",
+      "cache_key": null,
+      "invalidates_on": ["measured_generation", "depth_validation", "calibration", "appearance_config", "roi", "mask", "algorithm"]
+    },
+    "evidence": {
+      "owner": "VALIDATING",
+      "cache_key": null,
+      "invalidates_on": ["referenced_stage_output"]
+    }
+  },
+  "geometry_validation": {
+    "independent_measurement_count": 0,
+    "independent_measurements_used_for_calibration": false,
+    "p95_dimension_error_mm": null,
+    "maximum_dimension_error_mm": null,
+    "accepted_loop_closures": 0,
+    "loop_point_to_plane_p95_mm": null
+  },
+  "bim_registration": {
+    "independent_structural_groups": 0,
+    "holdout_structural_groups": 0,
+    "holdout_p95_residual_mm": null,
+    "rigid_se3_only": true,
+    "design_bim_hash": null
+  }
+}

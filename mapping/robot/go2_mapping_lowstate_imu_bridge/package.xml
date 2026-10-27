@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>go2_mapping_lowstate_imu_bridge</name>
+  <version>0.1.0</version>
+  <description>Read-only Unitree native LowState to ROS 2 IMU bridge for Go2 mapping.</description>
+  <maintainer email="unitree@example.com">Unitree Developer</maintainer>
+  <license>Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

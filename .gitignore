@@ -1,0 +1,81 @@
+# Generated data, logs, and local runtime state
+output/
+mapping-data/
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+*.pid
+
+# Generated dashboard map snapshots and previews
+mapping/pc/go2_mapping_dashboard/static/compatibility/
+mapping/pc/go2_mapping_dashboard/static/provisional-surface-preview/
+
+# Python and local environments
+.venv/
+venv/
+env/
+*.egg-info/
+
+# JavaScript dependencies and build output
+node_modules/
+dist/
+build/
+.vite/
+
+# ROS 2 / colcon build products
+install/
+log/
+**/build/
+
+# Large media and submission artifacts (keep locally; use Releases or external storage)
+materials/*.mp4
+materials/*.pptx
+materials/*.pdf
+*.bag
+*.db3
+*.mcap
+*.pcd
+*.ply
+*.las
+*.laz
+*.glb
+*.gltf
+
+# Model checkpoints and deployment bundles
+**/*.ckpt
+**/*.safetensors
+**/*.pt
+**/*.pth
+**/*.onnx
+**/*.engine
+**/*.tar.gz
+**/*.whl
+**/*.a
+**/*.so
+**/*.dll
+**/*.exe
+
+# Machine-specific calibration, network, and runtime identities
+# Keep checked-in config schemas and redacted defaults; put real values in mapping-data/.
+mapping-data/secrets/
+*.token
+*.secret
+*.credentials
+*.pem
+*.key
+*.env
+.env.*
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini

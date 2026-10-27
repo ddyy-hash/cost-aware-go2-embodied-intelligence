@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "asset_type": "pc_vla_checkpoint",
+  "model_id": "MobileVLA-R1",
+  "upstream_repo": "AIGeeksGroup/MobileVLA-R1",
+  "upstream_commit": "ff9062c143d6b50c05d913e6be15d36634a7a460",
+  "huggingface_repo": "AIGeeksGroup/MobileVLA-R1",
+  "checkpoint_state": "READY",
+  "preferred_variant": "rl",
+  "checkpoint_parts": 26,
+  "checkpoint_archive_relative_path": "models/mobilevla-r1-download/weight.zip",
+  "checkpoint_archive_bytes": 26871863199,
+  "checkpoint_archive_sha256": "90a356b75dada4be196462926082a5e36a3d9a77c438ff412bb1e7db98e5a966",
+  "local_checkpoint_relative_path": "models/mobilevla-r1-download/extracted/weight/sft",
+  "local_sft_relative_path": "models/mobilevla-r1-download/extracted/weight/sft",
+  "local_sft_directory_sha256": "96c541926d5ea716bd3949bd905b793dd1ac0c81f3732f80f41550d4dea8290f",
+  "local_sft_file_count": 17,
+  "local_sft_total_bytes": 16997623358,
+  "local_rl_relative_path": "models/mobilevla-r1-download/extracted/weight/rl",
+  "local_rl_directory_sha256": "b44e41fdb7d4812494660e72b80a8f3504cadd89c58d953fad27e648f94a79d6",
+  "local_rl_file_count": 17,
+  "local_rl_total_bytes": 16998231310,
+  "vendored_source_relative_path": "third_party/MobileVLA-R1",
+  "offline_only": true,
+  "local_files_only": true,
+  "variant_capabilities": {
+    "rl": {
+      "loadable": true,
+      "structured_navigation": true
+    },
+    "sft": {
+      "loadable": true,
+      "structured_navigation": false
+    }
+  },
+  "runtime": {
+    "python": "3.10",
+    "torch": "2.3.0",
+    "transformers": "4.37.2",
+    "dtype": "bfloat16",
+    "device": "cuda"
+  },
+  "verified_runtime": {
+    "python": "3.11",
+    "torch": "2.7.1+cu128",
+    "transformers": "4.53.2",
+    "peft": "0.9.0",
+    "accelerate": "1.14.0",
+    "local_only": true,
+    "tested_device": "cpu",
+    "tested_dtype": "float16"
+  },
+  "action_boundary": "ASSISTED_NAV2_INTENT_ONLY",
+  "forbidden_outputs": [
+    "cmd_vel",
+    "joint_targets",
+    "gait",
+    "footsteps",
+    "motor_commands"
+  ]
+}

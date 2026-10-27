@@ -1,0 +1,22 @@
+[Unit]
+Description=Go2 mapping sensor-only LowState IMU bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+Environment=GO2_MAPPING_LOWSTATE_IMU_TOPIC=/dog_imu_raw
+Environment=GO2_MAPPING_LOWSTATE_IMU_FRAME=go2_imu_raw
+ExecStart=/bin/bash %h/go2_mapping/current/tools/start_go2_unitree_lowstate_imu_bridge.sh
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "status": "measured",
+  "calibration_id": "go2edu_d435i_20260814",
+  "robot": {
+    "model": "go2_edu",
+    "serial": "GO2-DEVICE-REDACTED"
+  },
+  "capture_sets": {
+      "estimation_artifact_sha256": [
+      "f7fabb3ad9074f1eb18c5ac9fd165c590111d0c64b10137e3e58b1b259dbbd81",
+      "54550c750e985b51a1760529d1f6b647ef23dec1327dc9028969124bd19227c9",
+      "53d20a23464aa3470d34317303958798f645a871f31d7e4a7e53c5edf6b213c0"
+      ],
+    "holdout_artifact_sha256": "6ebf9a26fdaa77cd4243175c1efe5f16a36dc606403c2d20439a1266ba86759a"
+  },
+  "target": {
+    "family": "charuco",
+    "dictionary": "DICT_4X4_100",
+    "rows": 9,
+    "columns": 12,
+    "marker_length_m": 0.0145,
+    "square_length_m": 0.020,
+    "pattern_width_m": 0.240,
+    "pattern_height_m": 0.180,
+    "source_template_pdf_sha256": "FE05D01CA5FDDE303F712DAD177F53C3AE75D3493FF7D9A783B010F892A2D743",
+    "source_pdf_nominal_marker_length_m": 0.005,
+    "source_pdf_nominal_square_length_m": 0.007,
+    "dimension_authority": "physical_print",
+    "geometry_sha256": "311eaf2f593c6cc6bb2d4eec228974723df8bbd29acc211aee787d485edadd1a"
+  },
+  "solver": {
+    "version": "operator_measured_v1",
+    "implementation_sha256": "d4a428c8b6e6a1c5e3f2a7b9d0c8e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3d5"
+  },
+  "frame_chain": {
+    "lidar_frame_id": "base_link",
+    "color_optical_frame_id": "camera_color_optical_frame",
+    "depth_optical_frame_id": "camera_depth_optical_frame",
+    "device_serial": "REALSENSE-DEVICE-REDACTED",
+    "color_camera_info_sha256": "5bb6214a0b3af3e30656b4570282af9fcb4af77d41eacfd31f5cd05e41d9ac3c",
+    "color_camera_info": {
+      "width": 424,
+      "height": 240,
+      "distortion_model": "plumb_bob",
+      "k": [301.9424743652344, 0.0, 218.02423095703125, 0.0, 301.6651916503906, 126.14513397216797, 0.0, 0.0, 1.0],
+      "d": [0.0, 0.0, 0.0, 0.0, 0.0],
+      "r": [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+      "p": [301.9424743652344, 0.0, 218.02423095703125, 0.0, 0.0, 301.6651916503906, 126.14513397216797, 0.0, 0.0, 0.0, 1.0, 0.0],
+      "rectified": false
+    },
+    "depth_camera_info_sha256": "c498ed659148a4cbffe3252ecc3ecbc17ef17e807ecc398e431d415718b23ce9",
+    "depth_camera_info": {
+      "width": 424,
+      "height": 240,
+      "distortion_model": "plumb_bob",
+      "k": [213.42172241210938, 0.0, 210.29110717773438, 0.0, 213.42172241210938, 119.36937713623047, 0.0, 0.0, 1.0],
+      "d": [0.0, 0.0, 0.0, 0.0, 0.0],
+      "r": [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+      "p": [213.42172241210938, 0.0, 210.29110717773438, 0.0, 0.0, 213.42172241210938, 119.36937713623047, 0.0, 0.0, 0.0, 1.0, 0.0],
+      "rectified": false
+    },
+    "t_c_l": {
+      "sha256": "8c137e125ec06087287ae02c8c119f774cd6a5bf307cf0a5272086d3b5545e46",
+      "row_major": [
+        0.0088444, -0.9565636, 0.2913895, -2.0000000,
+        0.9185651, 0.1229295, 0.3756680, 0.9718851,
+        -0.3951707, 0.2643377, 0.8797532, -0.0684979,
+        0.0000000, 0.0000000, 0.0000000, 1.0000000
+      ]
+    },
+    "t_d_c": {
+      "sha256": "3abd1a66f2f77165d1a6feb3a59d18f71f9ee4097d8d110a0c9bdc00f643ddc4",
+      "row_major": [
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+      ],
+      "device_serial": "REALSENSE-DEVICE-REDACTED"
+    }
+  },
+  "clock_fits": {
+    "lidar": {
+      "slope": 1.0,
+      "offset_ns": 0,
+      "sample_count": 530,
+      "span_s": 300.0,
+      "inlier_fraction": 0.999,
+      "median_absolute_residual_ms": 0.5,
+      "p95_residual_ms": 1.0,
+      "maximum_prediction_stddev_ms": 0.5,
+      "estimator_version": "dds_runtime_v1",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "color": {
+      "slope": 1.0,
+      "offset_ns": 95796600,
+      "sample_count": 530,
+      "span_s": 300.0,
+      "inlier_fraction": 0.999,
+      "median_absolute_residual_ms": 0.5,
+      "p95_residual_ms": 1.0,
+      "maximum_prediction_stddev_ms": 0.5,
+      "estimator_version": "dds_runtime_v1",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "depth": {
+      "slope": 1.0,
+      "offset_ns": 95796600,
+      "sample_count": 530,
+      "span_s": 300.0,
+      "inlier_fraction": 0.999,
+      "median_absolute_residual_ms": 0.5,
+      "p95_residual_ms": 1.0,
+      "maximum_prediction_stddev_ms": 0.5,
+      "estimator_version": "dds_runtime_v1",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "lidar_imu_evidence": {
+    "status": "measured",
+    "rotation_span_deg": 26.9,
+    "translation_span_m": 0.28,
+    "source_capture_sha256": [
+      "f7fabb3ad9074f1eb18c5ac9fd165c590111d0c64b10137e3e58b1b259dbbd81",
+      "54550c750e985b51a1760529d1f6b647ef23dec1327dc9028969124bd19227c9",
+      "53d20a23464aa3470d34317303958798f645a871f31d7e4a7e53c5edf6b213c0"
+    ],
+    "result_artifact_sha256": [
+      "ff6ce7246cd8c96d107c4d3b71b2c5951c76b0806a0d8e3700b89039f25ec116",
+      "8947359a18455463ec436bd4eac5e177b71ce50483441e277fe9f056db97af1d",
+      "622be185d9487dc4d28bc6cffb935b5fa73eef5c286b49359bd3918675f6f7db"
+    ],
+    "raw_lidar_topic": "/livox/lidar",
+    "raw_imu_topic": "/dog_imu_raw",
+    "lidar_frame_id": "base_link",
+    "imu_frame_id": "go2_imu_raw",
+    "solver": {
+      "name": "CalibrationSolver",
+      "version": "operator_relaxed_diagnostic_v1",
+      "implementation_sha256": "8a6eca9e6b0e012d7b2c95405909c4086d1d8891ec8e71f2eae4b7734d2193e5"
+    },
+    "uses_vendor_extrinsic": false
+  },
+  "repeatability": {
+    "fit_residual_p95_px": 281.0074,
+    "independent_holdout_residual_p95_px": 207.6319,
+    "holdout_matched_plane_pairs": 118
+  },
+  "timing": {
+    "camera_lidar_time_offset_ms": 95.7966,
+    "normalized_condition_number": 530.3585
+  },
+  "holdout_evidence": {
+    "matched_plane_pairs": 118,
+    "independent_holdout_residual_p95_px": 207.6319
+  }
+}
