@@ -41,7 +41,7 @@ def test_dashboard_uses_a_15_hz_point_free_telemetry_path_between_global_snapsho
     assert 'GO2_MAPPING_DASHBOARD_TELEMETRY_HZ", "15"' in source
     assert "mapper.telemetry_snapshot()" in source
     assert "await asyncio.sleep(1.0 / _dashboard_telemetry_hz)" in source
-    assert "Telemetry is intentionally point-free at 15 Hz" in app
+    assert "Telemetry stays point-free at 15 Hz" in app
     assert "measured_preview_points" in app
     assert "unstable/single-view voxels make a wall look like a solid fog" in app
     assert "measuredCoverageReady" in app

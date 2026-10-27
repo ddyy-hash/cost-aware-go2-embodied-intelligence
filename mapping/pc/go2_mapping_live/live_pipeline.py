@@ -428,8 +428,8 @@ class LiveSurfacePipeline:
             if not integration.duplicate:
                 runtime.frames_since_checkpoint += 1
             runtime.last_integrated_at = time.monotonic()
-            # Durable serialization is intentionally kept off the producer ACK
-            # path. The checkpoint worker batches frames and flushes idle tails.
+            # The checkpoint worker batches durable writes and flushes idle tails,
+            # so producer acknowledgements do not wait for serialization.
             generation_id = self._flush(runtime) if force_checkpoint else None
             submap = runtime.project.submap(runtime.submap_id)
             return PipelineUpdate(

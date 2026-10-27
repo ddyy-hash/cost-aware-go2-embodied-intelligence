@@ -218,7 +218,7 @@ function Test-PublicDerpUpgrade([pscustomobject]$Endpoint) {
     if ($response -notmatch '101 Switching Protocols' -or $response -notmatch 'Derp-Public-Key:') {
         throw "AutoDL public endpoint did not preserve the DERP HTTP upgrade: $url (curl exit $curlExitCode)"
     }
-    # DERP upgrades intentionally stay open past curl's bounded probe timeout.
+    # Keep DERP upgrades open after curl's bounded probe timeout.
     $global:LASTEXITCODE = 0
     Write-Output "DERP_UPGRADE_OK $url"
 }

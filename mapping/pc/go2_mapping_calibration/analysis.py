@@ -19,9 +19,9 @@ class CalibrationAnalysisError(ValueError):
     """Raised when a transform or motion record is not physically usable."""
 
 
-# These limits are intentionally conservative for the approximately 5 Hz LIO
-# stream used by the calibration recorder. A transition over either limit is
-# treated as a new world epoch; it is never counted as operator excitation.
+# These thresholds account for normal motion between poses in the 5 Hz LIO
+# stream. A larger step starts a new world epoch and is excluded from operator
+# excitation measurements.
 LIO_EPOCH_MAX_TRANSLATION_STEP_M = 0.08
 LIO_EPOCH_MAX_ROTATION_STEP_DEG = 8.0
 

@@ -536,7 +536,7 @@ def load_session_odom_local_preview(
 ) -> tuple[DerivedSurfacePreview, dict[str, Any]]:
     """Load the separately published, read-only local ``odom`` validation surface.
 
-    This pointer is intentionally incompatible with the automatic reconstruction
+    This pointer uses a separate format from automatic reconstruction
     pointer: it can describe exactly one continuous local LIO session and never
     asserts global, room, building, or texture authority.
     """

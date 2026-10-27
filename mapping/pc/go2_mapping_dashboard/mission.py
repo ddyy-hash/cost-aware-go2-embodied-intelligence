@@ -219,7 +219,7 @@ def _route_points(task: dict[str, Any]) -> tuple[list[list[float]], str, str | N
 def audit_mission_route(task: dict[str, Any], coarse_map_payload: dict[str, Any]) -> dict[str, Any]:
     """Assess a Mission route against its current user-prior safety geometry.
 
-    The report is deliberately advisory for valid paths: an operator still has
+    The report is advisory for valid paths; an operator still has
     to review a route before any downstream navigation workflow. Invalid or
     unsafe paths are marked ineligible and can be rejected before goal compile.
     """

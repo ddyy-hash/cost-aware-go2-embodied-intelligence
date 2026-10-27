@@ -133,7 +133,7 @@ def extract_stair_profile_from_points(
 
     Points use ``x`` as the survey direction, ``y`` as lateral distance, and
     ``z`` as gravity-aligned height. The extractor estimates repeated positive
-    height transitions only; it is intentionally unable to authorize motion.
+    height transitions only and cannot authorize motion.
     """
 
     points = np.asarray(points_xyz, dtype=np.float64)

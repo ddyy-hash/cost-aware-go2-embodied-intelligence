@@ -122,7 +122,7 @@ class OfficialMobileVLABackend:
         _install_optional_import_shims()
         if str(self.source_root) not in sys.path:
             sys.path.insert(0, str(self.source_root))
-        # The upstream loader is intentionally called with local paths only.
+        # Keep the upstream loader on local checkpoint paths.
         previous = {key: os.environ.get(key) for key in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")}
         os.environ["HF_HUB_OFFLINE"] = "1"
         os.environ["TRANSFORMERS_OFFLINE"] = "1"

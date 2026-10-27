@@ -302,8 +302,7 @@ class NavigationExecutionAdapter:
         if current_state in {"LOCALIZATION_REQUIRED", "CANCELLED", "DONE", "QUARANTINED"}:
             self._cancel_cached_client()
             return current
-        # The user service is intentionally long-lived. An empty navigation
-        # directory is a normal idle state until Dashboard publishes a goal.
+        # Stay idle until the Dashboard publishes a goal.
         if not current.get("mission_id") and current.get("goal_available") is not True:
             return current
         plan = build_goal_plan(current)

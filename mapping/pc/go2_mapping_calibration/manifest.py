@@ -44,8 +44,8 @@ def build_calibration_manifest(
 ) -> dict[str, Any]:
     """Build and validate a production calibration manifest.
 
-    Validation is deliberately delegated to ``parse_calibration_manifest`` so
-    callers cannot create a payload that bypasses the runtime quality gates.
+    ``parse_calibration_manifest`` applies the runtime quality gates before the
+    payload is returned.
     """
     estimates = _hashes(estimation_hashes, "estimation_hashes")
     identity_l = list(t_c_l)

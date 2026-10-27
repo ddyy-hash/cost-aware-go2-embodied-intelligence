@@ -6,7 +6,7 @@ automatically falls back to DERP when they cannot. High-fidelity files are
 received as independently checksummed chunks and are published only after the
 reassembled artifact passes its own SHA-256 check.
 
-SSH is intentionally outside this receiver's business path; it is used only by
+SSH runs separately from this receiver and is used only by
 deployment, maintenance, or explicit file-transfer tooling.
 """
 from __future__ import annotations

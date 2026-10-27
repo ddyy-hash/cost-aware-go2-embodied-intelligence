@@ -199,8 +199,8 @@ class ProvisionalProjectionAccumulator:
     ) -> int:
         """Accumulate one color/LiDAR/LIO association without touching geometry.
 
-        ``camera_from_native_lidar`` intentionally projects the untransformed
-        raw LiDAR points.  The separate sensor-frame transform is applied only
+        ``camera_from_native_lidar`` projects the raw LiDAR points before the
+        sensor-frame transform. That transform is applied only
         before world-cell matching, exactly as the mapper constructs its
         ``source_vertex_ids``.
         """

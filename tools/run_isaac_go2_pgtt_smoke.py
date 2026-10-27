@@ -38,7 +38,7 @@ SUPPORTED_POLICY_BACKENDS = ("pgtt",)
 DEFAULT_JOINT_VALUES = (0.0, 0.0, 0.0, 0.0, 0.9, 0.9, 0.9, 0.9, -1.8, -1.8, -1.8, -1.8)
 # Isaac's imported articulation is grouped by joint type. MuJoCo qpos follows
 # body order FL, FR, RL, RR, while PGTT actions follow actuator order FR, FL,
-# RR, RL. These are intentionally separate contracts.
+# RR, RL. Keep these orderings as separate contracts.
 ISAAC_TO_QPOS = (0, 4, 8, 1, 5, 9, 2, 6, 10, 3, 7, 11)
 ISAAC_TO_ACTUATOR = (1, 5, 9, 0, 4, 8, 3, 7, 11, 2, 6, 10)
 ACTUATOR_TO_ISAAC = tuple(ISAAC_TO_ACTUATOR.index(index) for index in range(12))

@@ -13,7 +13,7 @@ The bridge is built into a release-specific workspace by
 `tools/build_go2_lowstate_imu_bridge.sh` and launched by
 `tools/start_go2_lowstate_imu_bridge.sh`.
 
-The Unitree native point-cloud bridge is intentionally outside this CMake
-package because the Unitree SDK and ROS Foxy use incompatible Cyclone DDS
-ABIs. Its SDK-only reader and ROS-only publisher exchange a versioned local
-socket protocol; launch it through `tools/start_go2_unitree_pointcloud_bridge.sh`.
+The Unitree native point-cloud bridge is built separately because the Unitree
+SDK and ROS Foxy use incompatible Cyclone DDS ABIs. Its SDK reader and ROS
+publisher exchange a versioned local socket protocol; launch it through
+`tools/start_go2_unitree_pointcloud_bridge.sh`.

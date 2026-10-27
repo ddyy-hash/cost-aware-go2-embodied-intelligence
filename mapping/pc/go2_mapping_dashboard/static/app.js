@@ -3668,7 +3668,7 @@ async function refreshCameraStatus() {
   }
 }
 
-// Telemetry is intentionally point-free at 15 Hz; complete geometry remains
+// Telemetry stays point-free at 15 Hz; complete geometry remains
 // on the slower snapshot and immutable tile paths.
 async function refreshSnapshot(force = false) {
   if (!diagnosticsDrawer.open) return;

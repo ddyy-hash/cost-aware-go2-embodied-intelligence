@@ -213,9 +213,8 @@ class ProgressiveMapper:
     def telemetry_snapshot(self) -> dict:
         """Return the 15 Hz dashboard state without materializing map points.
 
-        The complete snapshot is intentionally a separate, lower-rate path.
-        That preserves the whole-map view while keeping a fast pose/camera
-        refresh independent from the size of the accumulated map.
+        Full snapshots use a lower rate to preserve the whole-map view without
+        slowing pose and camera refreshes as the map grows.
         """
         position = self._trajectory[-1] if self._trajectory else (0.0, 0.0, 0.0)
         return {

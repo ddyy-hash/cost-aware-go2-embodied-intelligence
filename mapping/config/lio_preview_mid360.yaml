@@ -2,9 +2,9 @@
 #
 # The installed Unitree lio_sam_ros2 runtime consumes the observed ROS topics
 # directly. Its LiDAR-to-IMU transform below was inherited from the vendor's
-# existing MID-360 profile and is intentionally *provisional*. This profile is
-# suitable only for a live navigation/coverage preview. Do not use its output
-# as a centimetre-grade or CAD-aligned deliverable until the extrinsic and time
+# existing MID-360 profile and remains provisional. Use this profile only for
+# live navigation and coverage previews. Do not use its output as a
+# centimetre-grade or CAD-aligned deliverable until the extrinsic and timing
 # calibration are measured, versioned, and independently accepted.
 /**:
   ros__parameters:

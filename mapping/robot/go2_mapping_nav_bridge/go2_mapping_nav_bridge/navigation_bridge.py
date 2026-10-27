@@ -1,4 +1,4 @@
-"""Compile mission tasks into navigation goals for the Nav2 runtime."""
+"""Compile mission tasks into navigation goals for Nav2."""
 from __future__ import annotations
 
 from copy import deepcopy

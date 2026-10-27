@@ -1,39 +1,14 @@
-# Submission and Reproducibility Index
+# Reproducibility Notes
 
-This repository contains source code and reproducibility assets for a Go2
-indoor mapping, semantic navigation, and safety-gated terrain research system.
-Start with the root [README](README.md) for the project summary, setup, and
-public-release boundary.
+This index records the supported offline checks, simulation entry points, and evidence limits for the public Go2 mapping package. The project overview and setup instructions are in the [README](README.md).
 
-## Package contents
+## Reference environment
 
-- `mapping/`: PC mapping, dashboard API and frontend, RGB-D/LiDAR replay, Nav2
-  mission logic, MobileVLA intent adapter, and safety-gated terrain modules.
-- `third_party/`: Unitree SDK/ROS interfaces, vendored MobileVLA source, and
-  minimal PGTT Go2 MuJoCo assets. Upstream license files remain authoritative.
-- `models/pgtt-go2/`: compact, checksum-pinned demo policies used by offline
-  terrain replay tests. They are not hardware locomotion authorization.
-- `tools/`: WSL setup, validation, deployment, simulation, and robot
-  maintenance scripts.
-- `materials/`: local technical report, supplied presentation, and original
-  competition demonstration video. Large materials are excluded from Git.
+The PC-side reference environment is WSL Ubuntu 24.04 with the `go2-mapping-pc` micromamba environment. Robot-side packages target the Unitree Go2 deployment image and its supported ROS 2 distribution.
 
-## Reproduction boundary
+## Offline checks
 
-The reference PC environment is WSL Ubuntu 24.04 with the `go2-mapping-pc`
-micromamba environment. The system is offline-first and fail-closed:
-MobileVLA emits high-level navigation intents only; it cannot emit joint, gait,
-torque, or motor commands. Physical locomotion requires separate operator
-authorization, fresh terrain evidence, complete motor-health gates, and
-supervised field acceptance.
-
-Current evidence supports LiDAR/IMU observation, offline replay, and simulation
-validation. It does not claim a universally accepted physical stair run, a
-watertight building model, or calibrated final RGB texture.
-
-## Quick checks
-
-From the repository root in WSL:
+Run these commands from the repository root:
 
 ```bash
 python -m pytest -q \
@@ -45,13 +20,7 @@ python -m py_compile \
   mapping/robot/go2_mapping_locomotion/terrain_router.py
 ```
 
-For the full dashboard, install the declared Node dependencies in
-`mapping/pc/dashboard/` with `npm ci` and run the FastAPI entry point described
-by the deployment scripts.
-
-## Simulation entry points
-
-The included MuJoCo path is the reproducible simulation target:
+## MuJoCo replay
 
 ```bash
 python -m pip install mujoco imageio
@@ -61,14 +30,12 @@ python tools/run_pgtt_mujoco_reference.py \
 python tools/run_pgtt_mujoco_acceptance_matrix.py --episodes 1 --steps 300
 ```
 
-These commands write reports under `output/`, which is excluded from Git.
-Reports are simulation evidence only and set `executable=false` and
-`transport_authorized=false`. Isaac Sim adapters are optional and require an
-independent Isaac Sim installation and Go2 USD asset.
+Replay reports are written to `output/`. They document simulation behavior and do not authorize hardware motion. Isaac Sim adapters require a separate Isaac Sim installation and Go2 USD asset.
 
-## Excluded from the public repository
+## Evidence limits
 
-Raw bags and point clouds, generated meshes/GLBs, model checkpoints, local
-runtime output, secrets, deployment bundles, and large competition media are
-not tracked. The local working copy may retain the original PDFs, PPTX, and
-video. Publish media separately only when its redistribution rights are clear.
+The checked-in software supports offline replay, simulation checks, and LiDAR/IMU observation. It does not establish a universally accepted physical stair run, a watertight building model, or final calibrated RGB texture for all environments. Hardware operation requires fresh terrain evidence, runtime health checks, and operator authorization.
+
+## Data excluded from Git
+
+Raw bags, point clouds, generated meshes, runtime output, credentials, local network identities, model checkpoints, and large competition media are not tracked. Publish source media separately only when redistribution rights are clear. Third-party code and assets remain under the licenses in their respective directories.

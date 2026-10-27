@@ -223,7 +223,7 @@ class MeasuredVoxelMap:
         metrics = self._metrics(evidence)
         # Grazing-incidence returns are unstable for surface reconstruction;
         # retain them as candidates for diagnostics but never promote them to
-        # measured geometry. The threshold is deliberately permissive for
+        # measured geometry. Keep the threshold permissive for
         # walls/floors while rejecting near-tangent wave echoes.
         incidence_cosine = float(metrics.get("incidence_cosine", 0.0))
         # A zero value means the local normal/incidence diagnostic is

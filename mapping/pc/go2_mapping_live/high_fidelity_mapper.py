@@ -786,7 +786,7 @@ class HighFidelityMapper:
         first_new_index = len(self._raw_frames) - len(new_frames)
         for offset, frame in enumerate(new_frames):
             frame_index = first_new_index + offset
-            # Loop search is deliberately bounded so a large artifact cannot
+            # Bound loop search so a large artifact cannot
             # block publication of the realtime preview. The final frame is
             # always considered, while intermediate frames are sampled.
             if frame_index < 10 or (frame_index % 5 and offset != len(new_frames) - 1):
@@ -870,7 +870,7 @@ class HighFidelityMapper:
         solution: PoseGraphSolution | None = None,
     ) -> None:
         # Publish the vectorized provisional voxel layer first. Evidence-state
-        # accumulation is intentionally slower and follows without blocking
+            # accumulation runs at a lower rate without blocking
         # the operator's coarse 3D view.
         for frame in frames:
             points = points_by_node[frame.node_id]

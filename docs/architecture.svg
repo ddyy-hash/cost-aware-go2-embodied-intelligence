@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="790" viewBox="0 0 1480 790" role="img" aria-labelledby="t d">
+<title id="t">Go2 edge-to-cloud mapping and navigation architecture</title><desc id="d">Robot sensing, edge capture and queues, measured transport, PC reconstruction, dashboard and navigation with a separate terrain authorization gate.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d2a"/><stop offset="1" stop-color="#1b3040"/></linearGradient>
+  <linearGradient id="accent" x1="0" x2="1"><stop stop-color="#25a999"/><stop offset="1" stop-color="#63d1bd"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#06101a" flood-opacity=".25"/></filter>
+  <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#7a9aae"/></marker>
+  <marker id="arrg" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#43c5b1"/></marker>
+  <style>
+  text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#edf4f6}.eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;fill:#8aa8b8}.heading{font-size:29px;font-weight:700;letter-spacing:-.5px}.sub{font-size:14px;fill:#a9bdc8}.label{font-size:15px;font-weight:650}.small{font-size:12px;fill:#aec0c9}.micro{font-size:10px;font-weight:700;letter-spacing:1.2px;fill:#93b0be}.card{fill:#1c3040;stroke:#3b596b;stroke-width:1.2}.inner{fill:#243c4c;stroke:#3c5c6e;stroke-width:1}.stage{fill:#183b43;stroke:#3c9d93;stroke-width:1}.wire{fill:none;stroke:#7a9aae;stroke-width:2.2;marker-end:url(#arr)}.wired{fill:none;stroke:#43c5b1;stroke-width:2.4;marker-end:url(#arrg)}
+  </style>
+</defs>
+<rect width="1480" height="790" rx="24" fill="url(#bg)"/>
+<text x="52" y="50" class="eyebrow">SYSTEM OVERVIEW</text>
+<text x="52" y="89" class="heading">Cost-aware edge–cloud mapping for Unitree Go2</text>
+<text x="52" y="116" class="sub">Live preview remains responsive while verified sensor records move to PC reconstruction.</text>
+
+<text x="52" y="158" class="eyebrow">ROBOT</text><text x="325" y="158" class="eyebrow">EDGE CAPTURE &amp; SCHEDULING</text><text x="737" y="158" class="eyebrow">MEASURED LINK</text><text x="1000" y="158" class="eyebrow">PC MAPPING STACK</text>
+<g filter="url(#shadow)"><rect x="48" y="177" width="238" height="270" rx="16" class="card"/><rect x="313" y="177" width="367" height="270" rx="16" class="card"/><rect x="991" y="177" width="440" height="270" rx="16" class="card"/></g>
+
+<!-- Robot -->
+<circle cx="79" cy="216" r="14" fill="#237a70"/><path d="M72 216h14M79 209v14" stroke="#d5fff7" stroke-width="1.8"/>
+<text x="103" y="222" class="label">Go2 sensor stack</text>
+<rect x="68" y="244" width="198" height="49" rx="9" class="inner"/><text x="84" y="263" class="micro">GEOMETRY</text><text x="84" y="282" class="label">LiDAR · IMU</text>
+<rect x="68" y="304" width="198" height="49" rx="9" class="inner"/><text x="84" y="323" class="micro">APPEARANCE</text><text x="84" y="342" class="label">RGB-D camera</text>
+<rect x="68" y="364" width="198" height="58" rx="9" fill="#273a48" stroke="#536c79"/><text x="84" y="386" class="small">Native DDS topics</text><text x="84" y="407" class="small">Local raw recording</text>
+
+<!-- Edge -->
+<text x="338" y="214" class="label">Capture · validate · schedule</text><text x="338" y="236" class="small">ROS 2 adapters · sealed segments · checksums</text>
+<rect x="338" y="256" width="317" height="63" rx="10" fill="#173e41" stroke="#398f83"/><circle cx="361" cy="287" r="6" fill="#5ad4c0"/><text x="379" y="279" class="micro">PRIORITY QUEUE</text><text x="379" y="302" class="label" fill="#8be1d2">Live preview + health</text>
+<rect x="338" y="333" width="317" height="63" rx="10" fill="#25394a" stroke="#57738b"/><circle cx="361" cy="364" r="6" fill="#8ab0ed"/><text x="379" y="356" class="micro">DURABLE QUEUE</text><text x="379" y="379" class="label" fill="#abc9f7">Resumable sensor segments</text>
+<text x="338" y="424" class="small">Bulk transfer uses capacity left after preview demand.</text>
+
+<!-- Link -->
+<rect x="731" y="224" width="205" height="172" rx="15" fill="#1a3042" stroke="#587693" stroke-width="1.2"/>
+<circle cx="833" cy="263" r="21" fill="#29495f"/><path d="M821 264a12 12 0 0 1 24 0M826 264a7 7 0 0 1 14 0" fill="none" stroke="#d1e8f5" stroke-width="1.8"/><circle cx="833" cy="269" r="2" fill="#d1e8f5"/>
+<text x="833" y="306" text-anchor="middle" class="label">Tailnet transport</text><text x="833" y="330" text-anchor="middle" class="small">ACK-based capacity</text><text x="833" y="352" text-anchor="middle" class="small">Checksum verification</text><text x="833" y="374" text-anchor="middle" class="small">Retry · resume</text>
+
+<!-- PC stack -->
+<text x="1015" y="214" class="label">Reconstruct from verified evidence</text><text x="1015" y="236" class="small">Calibration, frame, timing, and source provenance follow the data.</text>
+<rect x="1015" y="264" width="119" height="103" rx="10" class="stage"/><text x="1074" y="288" text-anchor="middle" class="micro">01 · INGEST</text><text x="1074" y="319" text-anchor="middle" class="label">LiDAR</text><text x="1074" y="342" text-anchor="middle" class="label">+ LIO</text>
+<rect x="1150" y="264" width="119" height="103" rx="10" class="stage"/><text x="1209" y="288" text-anchor="middle" class="micro">02 · FUSE</text><text x="1209" y="319" text-anchor="middle" class="label">Submaps</text><text x="1209" y="342" text-anchor="middle" class="label">+ surfaces</text>
+<rect x="1285" y="264" width="123" height="103" rx="10" class="stage"/><text x="1346" y="288" text-anchor="middle" class="micro">03 · PUBLISH</text><text x="1346" y="319" text-anchor="middle" class="label">Quality</text><text x="1346" y="342" text-anchor="middle" class="label">+ artifacts</text>
+<text x="1015" y="403" class="small">RGB-D texture remains provisional until calibration gates pass.</text>
+
+<path d="M286 328H309" class="wire"/><path d="M680 286H725" class="wired"/><path d="M680 364H712V382H725" class="wire"/><path d="M936 310H985" class="wired"/>
+
+<!-- Applications -->
+<text x="52" y="500" class="eyebrow">APPLICATIONS &amp; CONTROL BOUNDARIES</text>
+<g filter="url(#shadow)"><rect x="48" y="520" width="321" height="154" rx="14" class="card"/><rect x="386" y="520" width="321" height="154" rx="14" class="card"/><rect x="724" y="520" width="321" height="154" rx="14" class="card"/><rect x="1062" y="520" width="369" height="154" rx="14" fill="#342e27" stroke="#ad804c" stroke-width="1.2"/></g>
+<circle cx="78" cy="555" r="11" fill="#315d78"/><path d="M72 555h12M78 549v12" stroke="#e4f3fb" stroke-width="1.6"/><text x="100" y="561" class="label">Operator dashboard</text><text x="70" y="593" class="small">Map · sensor health · mission state</text><text x="70" y="618" class="small">Read-only preview and quality status</text>
+<circle cx="416" cy="555" r="11" fill="#315d78"/><path d="M410 555h12M416 549v12" stroke="#e4f3fb" stroke-width="1.6"/><text x="438" y="561" class="label">Nav2 mission bridge</text><text x="408" y="593" class="small">Coarse-map tasks become navigation goals</text><text x="408" y="618" class="small">Robot observations update task evidence</text>
+<circle cx="754" cy="555" r="11" fill="#315d78"/><path d="M748 555h12M754 549v12" stroke="#e4f3fb" stroke-width="1.6"/><text x="776" y="561" class="label">MobileVLA intent adapter</text><text x="746" y="593" class="small">High-level task intent only</text><text x="746" y="618" class="small">No motor or joint command interface</text>
+<path d="M1093 544l11 11-11 11-11-11Z" fill="#bc874e"/><text x="1117" y="561" class="label" fill="#f4ca91">Terrain request gate</text><text x="1084" y="593" class="small">Fresh terrain · health · operator approval</text><text x="1084" y="618" class="small">Replay policy remains separate from actuation</text>
+
+<path d="M1074 447V482H208V516" class="wire"/><path d="M1209 447V488H546V516" class="wire"/><path d="M1209 447V494H884V516" class="wired"/><path d="M1045 597H1057" fill="none" stroke="#d19a5e" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arr)"/>
+<text x="52" y="718" class="small">Map evidence informs navigation; physical motion remains behind a separate operator authorization gate.</text>
+<text x="1427" y="718" text-anchor="end" class="eyebrow">GO2 · ROS 2 · EDGE / PC</text>
+</svg>

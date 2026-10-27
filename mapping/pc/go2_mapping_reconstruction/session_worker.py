@@ -380,10 +380,9 @@ class SessionReconstructionWorker:
     def finalize_verified_session(self) -> dict[str, Any]:
         """Replay one closed verified session without waiting for incremental preview ingest.
 
-        This is deliberately a separate operation from :meth:`process_once`.
-        A live preview may be throttled or lag the capture, while a closed
-        session can safely run the existing full read-only replay once its
-        final manifest and every lifecycle-verified part agree.
+        This is separate from :meth:`process_once`. A live preview may be
+        throttled or lag the capture. After the final manifest and every part
+        pass lifecycle checks, a closed session can run the full read-only replay.
         """
 
         existing_final = self._load_existing_final_status()

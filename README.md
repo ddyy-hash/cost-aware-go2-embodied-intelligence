@@ -1,56 +1,65 @@
-# Cost-Aware Edge-Cloud Embodied Intelligence for Go2
+<div align="center">
 
-面向城域工业场景的成本感知端云协同具身智能系统。项目以 Unitree Go2 为移动载体，将机器人侧的 LiDAR / IMU / RGB-D 采集、PC 侧的高保真建图与三维重建、语义导航、MobileVLA 高层意图适配，以及带安全门控的地形策略回放组织成一个可审计的 ROS 2 工程。
+# Cost-Aware Edge–Cloud Embodied Intelligence
 
-> This repository is a research and reproducibility package. It contains source code, simulation assets, compact replay policies, validation tests, and deployment scripts. Hardware motion remains operator-authorized and fail-closed.
+**Indoor mapping, navigation, and safety-gated terrain research on Unitree Go2**
 
-![Go2 indoor navigation and stair demo](docs/demo.gif)
+[![ROS 2](https://img.shields.io/badge/ROS_2-Foxy%20%7C%20Humble-22314E?logo=ros)](https://www.ros.org/)
+[![Python](https://img.shields.io/badge/Python-3.8%20%7C%203.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Simulation](https://img.shields.io/badge/Simulation-MuJoCo-2F6B5D)](https://mujoco.org/)
+[![License](https://img.shields.io/badge/License-See%20upstream%20terms-lightgrey)](third_party/)
 
-The clip shows the Go2 indoor navigation and stair traversal demo. The full
-source video is kept out of Git because GitHub rejects files of this size.
+<br>
 
-## Implementation
+<img src="docs/demo.gif" alt="Unitree Go2 indoor navigation and stair demonstration" width="760">
 
-The PC and robot communicate over a measured link. The robot sends preview data first, then uploads closed sensor segments as bandwidth allows. Uploads resume by chunk and are acknowledged only after checksum verification and reconstruction ingest.
+*Indoor traversal, stair sequences, and simulation excerpts from the project demonstration.*
 
-On the PC, LiDAR and LIO observations feed mapping and surface reconstruction. Calibration, frame IDs, timing residuals, and source hashes travel with the artifacts so later stages can check where each result came from. The Dashboard displays those results and their quality state.
+</div>
 
-MobileVLA is limited to high-level navigation intent. Terrain execution has a separate request gate with sensor, policy, and operator checks; the bundled PGTT policies are used for offline replay and do not authorize robot motion.
+## Project
 
-## System layout
+This project connects a Unitree Go2 robot to a PC mapping stack over a bandwidth-aware link. The robot records LiDAR, IMU, and RGB-D data locally. A low-latency preview is sent first; verified sensor segments use the remaining measured capacity. On the PC, the data feeds mapping, surface reconstruction, the operator dashboard, and Nav2 mission planning.
 
-```text
-Go2 sensors and DDS
-        |
-        v
-Robot adapters and capture services  --->  local durable spool
-        |                                      |
-        +---- preview / health ---------------+---- measured uplink
-                                                       |
-                                                       v
-PC mapping core --> fusion --> reconstruction / appearance --> dashboard
-        |
-        +--> Nav2 mission bridge
-        +--> MobileVLA intent adapter
-        +--> terrain evidence and safety gate --> read-only/sim replay
-```
+MobileVLA is used for high-level navigation intent. Terrain policy output remains behind independent evidence and operator gates. The bundled terrain policies support offline replay; they do not authorize robot motion.
+
+## System architecture
+
+<p align="center">
+  <a href="docs/architecture.svg"><img src="docs/architecture.svg" alt="Go2 edge-to-cloud mapping and navigation architecture" width="100%"></a>
+</p>
+
+The editable source is [`docs/architecture.drawio`](docs/architecture.drawio). Open it with [diagrams.net](https://app.diagrams.net/) or import the SVG into Visio.
+
+## What is included
+
+| Area | Implementation |
+| --- | --- |
+| Robot sensing | Go2 capture services and native DDS bridges for LiDAR and IMU, plus RGB-D integration |
+| Data transport | Preview-priority scheduling, measured-capacity allocation, resumable transfer, and checksum verification |
+| Mapping | Calibration contracts, LiDAR/LIO fusion, submaps, reconstruction, and surface-quality checks |
+| Operator tools | Dashboard for map, sensor health, mission state, and reconstruction status |
+| Navigation | Coarse-map task generation and a mission-to-Nav2 bridge |
+| Embodied AI | MobileVLA high-level intent adapter and evidence-gated terrain policy replay |
+| Validation | Offline tests, contract checks, and MuJoCo replay tools |
 
 ## Repository map
 
-| Path | Purpose |
-| --- | --- |
-| `mapping/pc/` | Mapping, calibration, fusion, reconstruction, Dashboard, quality gates, and VLA adapters |
-| `mapping/robot/` | Go2 capture, native DDS bridges, Nav2 integration, telemetry, and locomotion request gates |
-| `mapping/tests/` | Unit, contract, offline replay, and acceptance-matrix tests |
-| `mapping/config/` | Versioned schemas and example configuration; machine-specific identities stay local |
-| `tools/` | WSL setup, build, validation, replay, deployment, and maintenance entry points |
-| `models/pgtt-go2/` | Compact PGTT Go2 policies used by offline replay tests |
-| `third_party/` | Vendored upstream interfaces and minimal simulation assets; see their local license files |
-| `materials/` | Local competition reports, slides, and demonstration media; large files are intentionally not committed |
+```text
+mapping/
+  config/       Runtime profiles and redacted examples
+  pc/           Mapping, calibration, reconstruction, dashboard, and VLA adapters
+  robot/        Go2 capture, DDS bridges, Nav2, and terrain request gates
+  tests/        Unit, contract, replay, and acceptance tests
+models/         Compact PGTT policies for offline replay
+third_party/    Upstream SDKs and minimal simulation assets with their licenses
+docs/           Architecture diagram and demo animation
+tools/          Setup, deployment, replay, and verification entry points
+```
 
-## Quick start: offline checks
+## Run offline checks
 
-The reference development environment is WSL Ubuntu 24.04 with the `go2-mapping-pc` micromamba environment. From the repository root:
+The reference PC environment is WSL Ubuntu 24.04 with the `go2-mapping-pc` micromamba environment.
 
 ```bash
 micromamba activate go2-mapping-pc
@@ -63,11 +72,11 @@ python -m py_compile \
   mapping/robot/go2_mapping_locomotion/terrain_router.py
 ```
 
-The tests above do not require a physical robot. Hardware and ROS 2 launch scripts require the matching Unitree, Livox, RealSense, Nav2, and ROS 2 installations described by the scripts in `tools/`.
+These checks do not require a physical robot. The repository's full test suite and hardware workflows need the packages and ROS 2 distributions declared in the environment files and deployment scripts.
 
-## Simulation replay
+## Run a MuJoCo replay
 
-The MuJoCo replay path is the smallest reproducible demonstration:
+Install the simulation dependencies, then run a reference episode and the acceptance matrix:
 
 ```bash
 python -m pip install mujoco imageio
@@ -77,11 +86,9 @@ python tools/run_pgtt_mujoco_reference.py \
 python tools/run_pgtt_mujoco_acceptance_matrix.py --episodes 1 --steps 300
 ```
 
-Reports are written under `output/`, which is ignored by Git. They are simulation evidence only and do not authorize hardware locomotion.
+Reports are written to `output/`, which Git ignores. Simulation reports describe simulation results only.
 
-## Dashboard preview
-
-The lightweight Three.js dashboard is in `mapping/pc/dashboard/`:
+## Preview the dashboard
 
 ```bash
 cd mapping/pc/dashboard
@@ -89,20 +96,26 @@ npm ci
 npm run dev
 ```
 
-The dashboard is an operator-facing visualization for map, trajectory, sensor health, and quality state. It does not replace the runtime safety gates.
+The dashboard code is in `mapping/pc/dashboard/`; the FastAPI service and its map interfaces are in `mapping/pc/go2_mapping_dashboard/`.
 
-## Public-release boundary
+## Runtime and evidence boundaries
 
-Raw bags, point clouds, generated meshes, model checkpoints, runtime tokens, Wi-Fi profiles, tailnet identities, and large competition media stay out of Git. The local `materials/` directory may contain the original working files; use a release or an institutional artifact store for media you have permission to publish.
+- MobileVLA returns high-level navigation intent; it has no joint, gait, torque, or motor command interface.
+- Terrain execution requires current terrain evidence, runtime health checks, and explicit operator authorization.
+- Calibration, frame, and timing metadata travel with source artifacts. Provisional transforms are not promoted as measured calibration.
+- The checked-in evidence covers software checks, offline replay, and simulation. It does not establish universally accepted physical stair traversal, watertight building reconstruction, or final calibrated texture for every environment.
+- Hardware workflows require the matching Go2, sensor, SDK, and ROS 2 setup. Read the relevant `tools/` entrypoint and config before running one.
 
-Some runtime configurations contain device serial numbers or private network addresses and are ignored by `.gitignore`. Copy the corresponding `*.example.*` file and provide local values before running hardware workflows. Never commit tokens or private keys.
+## Files kept out of Git
 
-The project does not apply a blanket license to vendored code or competition materials. Original project files may be reused for research and portfolio review with attribution; each directory under `third_party/` remains subject to its upstream license, which must be read before redistribution.
+Raw bags, point clouds, generated meshes, model checkpoints, runtime secrets, machine-specific network identities, and large competition media are excluded. The local `materials/` folder may contain source presentation and video files; publish those separately only when redistribution rights are clear. The README animation is the compact demonstration preview.
 
-## Evidence and limitations
+There is no blanket license for the repository. Each `third_party/` component retains its upstream terms. Check those files before redistributing the corresponding code or assets.
 
-The included evidence supports offline replay, simulation, LiDAR/IMU observation, and software-level acceptance checks. It does not claim a universally accepted physical stair traversal, a watertight building model, or calibrated final RGB texture for every environment. See [`SUBMISSION_INDEX.md`](SUBMISSION_INDEX.md) for the original reproducibility boundary and evidence notes.
+## Citation
+
+If you reference this project, use the metadata in [`CITATION.cff`](CITATION.cff).
 
 ## Contact
 
-Maintainer: Yu Ding (`ddy-hash`).
+Yu Ding · GitHub [@ddy-hash](https://github.com/ddy-hash)

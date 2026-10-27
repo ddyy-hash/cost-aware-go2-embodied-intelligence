@@ -897,7 +897,7 @@ async def _lifespan(_: FastAPI):
     if _depth_anything_worker is not None:
         _depth_anything_worker.start()
     # One committer preserves the exact preview order.  TCP/WebSocket ACKs may
-    # be pipelined, but map mutation is deliberately serialized.
+    # Requests may be pipelined; map mutations must remain serialized.
     _live_ingest_queue = asyncio.Queue(maxsize=_live_ingest_queue_size)
     _live_ingest_next_sequence = None
     _live_ingest_last_admitted = {}

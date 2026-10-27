@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only preflight for the Go2 mapping release. It intentionally does not
+# Read-only preflight for the Go2 mapping release. It does not
 # start ROS nodes, alter services, change camera parameters, or use sudo.
 set -Eeuo pipefail
 
