@@ -24,7 +24,7 @@ if ($Stage -eq 'Enable') {
     Invoke-DismFeature -FeatureName 'VirtualMachinePlatform'
     Write-Host 'WSL platform features are enabled.'
     Write-Host 'Restart Windows, then run this script again with -Stage Provision.'
-    Write-Host 'This script intentionally does not restart the computer.'
+    Write-Host 'The installer does not restart the computer.'
     exit 0
 }
 
