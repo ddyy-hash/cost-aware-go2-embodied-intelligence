@@ -4,6 +4,11 @@
 
 > This repository is a research and reproducibility package. It contains source code, simulation assets, compact replay policies, validation tests, and deployment scripts. Hardware motion remains operator-authorized and fail-closed.
 
+![Go2 indoor navigation and stair demo](docs/demo.gif)
+
+The clip shows the Go2 indoor navigation and stair traversal demo. The full
+source video is kept out of Git because GitHub rejects files of this size.
+
 ## Implementation
 
 The PC and robot communicate over a measured link. The robot sends preview data first, then uploads closed sensor segments as bandwidth allows. Uploads resume by chunk and are acknowledged only after checksum verification and reconstruction ingest.
