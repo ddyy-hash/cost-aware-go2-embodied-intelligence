@@ -1,7 +1,6 @@
-"""Validated latest-only RGB-D assist frame for browser-side measurement.
+"""Keep the latest validated RGB-D frame for Dashboard measurement previews.
 
-This class intentionally stores an operator preview frame, not an archival
-record. Full RGB-D remains in the durable high-fidelity ROS bag queue.
+Full-resolution data remains in the durable ROS bag queue.
 """
 from __future__ import annotations
 

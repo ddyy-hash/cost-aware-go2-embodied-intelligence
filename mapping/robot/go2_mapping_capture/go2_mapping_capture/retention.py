@@ -1,8 +1,7 @@
-"""Crash-safe storage and retention for robot-side mapping segments.
+"""Store mapping segments and decide when they can be transferred or removed.
 
-This module deliberately has no ROS dependency.  A ROS recorder may fail or be
-restarted at any point; only fully written MCAP payloads with a checksum
-manifest become eligible for transfer or retention decisions.
+This module has no ROS dependency. A segment becomes eligible only after its
+MCAP payload is complete and its checksum manifest is written.
 """
 
 from __future__ import annotations

@@ -1,8 +1,7 @@
-"""PC-side dense LiDAR fusion from checksum-verified ROS 2 SQLite bag parts.
+"""Fuse dense LiDAR from checksum-verified ROS 2 SQLite bag parts.
 
-This intentionally fuses only LiDAR frames with a time-matched recorded LIO
-pose. RGB-D frames remain durable source data until their measured extrinsics
-and time offset pass calibration gates; guessed transforms are never used.
+LiDAR frames are paired with recorded LIO poses. RGB-D remains source data until
+measured extrinsics and time offset pass calibration gates.
 """
 from __future__ import annotations
 

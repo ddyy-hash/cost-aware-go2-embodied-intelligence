@@ -1,9 +1,7 @@
-"""Publish a verified non-deliverable RGB-D color sidecar under Dashboard static files.
+"""Publish a non-deliverable RGB-D sidecar under the Dashboard static files.
 
-The normal Dashboard appearance APIs deliberately remain unavailable for an
-immutable observed LiDAR surface.  This publisher is a separate static-only
-inspection route.  It mirrors a preview only after binding it to the current
-formal read-only surface by surface SHA, geometry revision, and vertex count.
+The publisher mirrors a preview only after binding it to the current read-only
+surface by surface hash, geometry revision, and vertex count.
 """
 
 from __future__ import annotations

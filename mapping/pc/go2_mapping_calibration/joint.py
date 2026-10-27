@@ -1,8 +1,7 @@
-"""Provenance-bound multi-capture calibration diagnostics.
+"""Produce provenance-bound diagnostics from multiple calibration captures.
 
-This module deliberately produces diagnostic-only results.  It can combine
-finite-board observations from independent captures to assess observability,
-but it never writes or authorizes a measured calibration manifest.
+The results assess observability but never write or authorize a measured
+calibration manifest.
 """
 
 from __future__ import annotations

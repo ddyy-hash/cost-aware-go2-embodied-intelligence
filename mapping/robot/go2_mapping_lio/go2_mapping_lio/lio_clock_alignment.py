@@ -1,9 +1,7 @@
-"""Conservative LiDAR clock alignment for the live, provisional LIO stream.
+"""Align the live LIO stream without changing raw capture timestamps.
 
-The raw capture stream keeps the timestamp supplied by the Unitree DDS
-message.  This helper is deliberately used only on a separate live LIO topic:
-it translates a stable LiDAR-clock offset into the host/IMU clock and keeps a
-small guard interval so LIO-SAM has received the IMU samples for a scan.
+The helper applies a measured LiDAR-clock offset to a separate live topic and
+keeps a short guard interval so LIO-SAM receives the IMU samples for a scan.
 """
 from __future__ import annotations
 

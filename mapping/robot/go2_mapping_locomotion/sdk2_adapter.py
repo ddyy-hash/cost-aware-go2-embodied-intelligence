@@ -1,9 +1,8 @@
-"""Explicitly disarmed Unitree SDK2 transport adapter for Go2.
+"""Disarmed Unitree SDK2 transport adapter for Go2.
 
-The adapter is intentionally unusable for actuation by default. It supports
-read-only low-state subscription and deterministic conversion of a validated
-12-joint target frame, but only an explicit, separately audited activation
-path may create the ``rt/lowcmd`` publisher.
+It supports read-only low-state subscription and conversion of a validated
+12-joint target frame. Creating an ``rt/lowcmd`` publisher requires a separate
+audited activation path.
 """
 from __future__ import annotations
 

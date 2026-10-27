@@ -1,10 +1,8 @@
-"""Read-only RGB-D projection evidence for a verified derived LiDAR surface.
+"""Build an RGB-D color preview tied to an existing LiDAR surface.
 
-The final derived surface is immutable LiDAR geometry.  This module is a
-separate inspection path: it replays the same raw LiDAR/LIO association used by
-the final mapper, projects native LiDAR points using an operator-forced runtime
-transform, and writes no geometry or runtime pointer.  It deliberately does
-not use unverified RGB-D depth as a geometry or texture-delivery authority.
+The preview replays the source LiDAR/LIO data and uses an operator-forced
+transform. It does not change the surface, calibration, or publication pointer;
+RGB-D depth is not treated as geometry or delivery evidence.
 """
 
 from __future__ import annotations

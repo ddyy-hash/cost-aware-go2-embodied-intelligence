@@ -1,8 +1,8 @@
-"""Offline MobileVLA-R1 adapter with a high-level-only action boundary.
+"""Adapt MobileVLA-R1 responses into high-level Nav2 tasks.
 
-The upstream project emits continuous robot actions. This project deliberately
-adapts only its semantic decision layer into an ASSISTED Nav2 task. A model
-response can never contain or produce velocity, joint, gait, or motor output.
+The upstream model emits continuous actions; this adapter consumes only its
+semantic decision and returns an ASSISTED task. Velocity, joint, gait, and motor
+outputs are outside this interface.
 """
 from __future__ import annotations
 

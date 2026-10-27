@@ -1,8 +1,7 @@
-"""Auditable operator-forced runtime calibration override contracts.
+"""Contracts for an auditable operator-forced calibration override.
 
-The override is deliberately distinct from a measured calibration manifest. It
-can activate the known axis-only diagnostic seed for a user-approved runtime
-session, but it can never be read as solver-produced measurement evidence.
+The override is separate from a measured manifest. It can activate an axis-only
+diagnostic seed for an approved session, but it is not solver evidence.
 """
 
 from __future__ import annotations

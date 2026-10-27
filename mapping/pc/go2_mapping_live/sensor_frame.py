@@ -1,10 +1,8 @@
-"""Versioned LiDAR sensor-frame transforms shared by live and offline fusion.
+"""Versioned LiDAR sensor-frame transforms for live and offline fusion.
 
-The recorded Go2 LiDAR stream is kept in its native sensor coordinates.  A
-consumer may apply one of the explicitly registered transforms before mapping;
-the transform ID is part of the source configuration and derived identity.
-The current Go2 transform is provisional and deliberately contains rotation
-only because the mounting translation has not been measured and accepted.
+Recorded data stays in native sensor coordinates. Consumers apply a registered
+transform whose ID is part of the source and derived identities. The current
+Go2 transform contains rotation only; mounting translation is not accepted.
 """
 from __future__ import annotations
 

@@ -88,9 +88,8 @@ def upload_artifact(
         preview_demand_store = PreviewDemandStore(
             Path(preview_demand_state_path or Path(bandwidth_state_path).with_name("preview-demand.json"))
         )
-        # Keep the preview queue useful while the first real-time demand
-        # heartbeat is arriving. This is an explicit Mbps startup floor, not a
-        # fixed percentage reservation; subsequent heartbeats replace it.
+        # Reserve a small preview floor until the first demand heartbeat arrives.
+        # Later heartbeats replace this bootstrap value.
         minimum_total_mbps = float(os.environ.get("GO2_MAPPING_MIN_TOTAL_BANDWIDTH_MBPS", "4.0"))
         if not math.isfinite(minimum_total_mbps) or minimum_total_mbps <= 0:
             raise ValueError("GO2_MAPPING_MIN_TOTAL_BANDWIDTH_MBPS must be finite and positive")
@@ -123,9 +122,8 @@ def upload_artifact(
         if controller is None or preview_demand_store is None:
             return
         required_mbps = preview_demand_store.read()
-        # Hold the explicit startup floor across a transient heartbeat gap;
-        # releasing to zero here could let bulk data consume the camera's
-        # real-time path before the next producer update arrives.
+        # Keep the bootstrap floor during a heartbeat gap so bulk data cannot
+        # consume the camera's real-time allocation.
         fallback = float(os.environ.get("GO2_MAPPING_PREVIEW_BOOTSTRAP_MBPS", "1.0"))
         controller.set_preview_demand(fallback if required_mbps is None else required_mbps)
 
@@ -166,9 +164,8 @@ def upload_artifact(
                 probe_state["last_at"] = now
             allocation = controller.budget if controller is not None else None
             observed = probe_state["observed_mbps"]
-        # A capacity probe is a separate request. It must never replace the
-        # artifact chunk that triggered it, otherwise sealing would leave a
-        # missing part (notably chunk 0 on the first upload).
+        # A probe is separate from the artifact chunk that triggered it; both
+        # requests are required before the artifact can be sealed.
         if probe:
             probe_started_at = time.monotonic()
             _put_probe(
@@ -527,8 +524,8 @@ def _response_json(connection: http.client.HTTPConnection) -> Dict[str, object]:
         body = json.loads(raw.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise UploadError(f"receiver returned invalid JSON with HTTP {response.status}") from exc
-    # Artifact chunks use 201/208; the unthrottled capacity probe endpoint
-    # intentionally returns 200 because it does not create an artifact.
+    # Artifact chunks use 201/208. The capacity probe uses 200 because it does
+    # not create an artifact.
     if response.status not in (200, 201, 208):
         raise UploadError(f"receiver rejected artifact with HTTP {response.status}: {body.get('error', body)}")
     if not isinstance(body, dict):

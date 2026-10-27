@@ -1,8 +1,7 @@
-"""A deliberately opt-in ROS 2 MCAP segment recorder.
+"""Record caller-selected ROS 2 topics into sealed MCAP segments.
 
-The recorder does not launch cameras, publish motion messages, or alter ROS
-parameters. It only records topic names supplied by its caller and passes a
-fully sealed MCAP file to :mod:`go2_mapping_capture.retention`.
+The recorder does not start cameras, publish motion messages, or change ROS
+parameters. Sealed files are handed to :mod:`go2_mapping_capture.retention`.
 """
 
 from __future__ import annotations

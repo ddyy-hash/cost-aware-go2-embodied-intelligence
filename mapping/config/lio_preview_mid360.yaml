@@ -8,7 +8,7 @@
 # calibration are measured, versioned, and independently accepted.
 /**:
   ros__parameters:
-    # This is a live-only Livox CustomMsg derived from the host-clock-aligned
+    # Live-only Livox CustomMsg derived from the host-clock-aligned
     # PointCloud2 copy. The raw /livox/lidar stream remains source-stamped and
     # is recorded unchanged for offline calibration and reconstruction.
     pointCloudTopic: "/go2/lio/livox"

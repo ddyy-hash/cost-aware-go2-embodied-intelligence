@@ -1,10 +1,4 @@
-"""Mission-task to navigation-goal bridge state.
-
-This module intentionally stays ROS-agnostic so the goal contract can be
-tested and wired from the Dashboard before a concrete Nav2 runtime is present.
-It compiles mission tasks into a bridge record that can later be handed to a
-real navigation action server.
-"""
+"""Compile mission tasks into navigation goals for the Nav2 runtime."""
 from __future__ import annotations
 
 from copy import deepcopy

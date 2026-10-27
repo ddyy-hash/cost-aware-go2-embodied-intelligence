@@ -1,8 +1,7 @@
-"""Loopback-only Dashboard view for one verified offline LiDAR surface.
+"""Serve a verified offline LiDAR surface as a loopback Dashboard preview.
 
-This module deliberately has no capture, control, reconstruction, calibration,
-or export ownership. It is an operator preview of a content-addressed result
-while the full PC stack awaits an owner-aware reload.
+This endpoint does not own capture, control, reconstruction, calibration, or
+export. It displays a content-addressed result while the PC stack reloads.
 """
 
 from __future__ import annotations

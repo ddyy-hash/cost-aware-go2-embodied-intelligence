@@ -1,9 +1,4 @@
-"""ARCHIVE ONLY: checked-in Genesis Go2 stair actor checkpoint adapter.
-
-This module is retained for provenance and offline research reproduction. It
-is intentionally not exported by the locomotion package and is not a runtime
-backend.
-"""
+"""Archived Genesis Go2 stair policy adapter for offline reproduction."""
 from __future__ import annotations
 
 from pathlib import Path

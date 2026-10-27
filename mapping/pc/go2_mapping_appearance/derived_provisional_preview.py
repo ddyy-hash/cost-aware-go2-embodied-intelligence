@@ -1,10 +1,8 @@
-"""Read-only RGB-D color previews for one derived LiDAR surface.
+"""Publish RGB-D color previews for an existing derived LiDAR surface.
 
-This module intentionally does not participate in the validated appearance
-store.  It uses an explicitly operator-forced runtime projection only to make
-an inspection artifact whose color records are bound to an existing immutable
-LiDAR surface.  The artifact can never authorize texture delivery or a final
-export.
+Each preview is an inspection artifact tied to an immutable surface and an
+operator-forced projection. It is separate from the validated appearance store
+and cannot authorize texture delivery or final export.
 """
 
 from __future__ import annotations

@@ -1,8 +1,7 @@
-"""Explicit diagnostic axis conventions for native Go2 LiDAR data.
+"""Diagnostic axis correspondence for native Go2 LiDAR data.
 
-This module describes only a discrete axis correspondence observed in natural
-scene projections. It intentionally contains no mounting translation and is
-never a calibration manifest transform.
+The mapping has no mounting translation and must not be used as a calibration
+transform.
 """
 
 from __future__ import annotations

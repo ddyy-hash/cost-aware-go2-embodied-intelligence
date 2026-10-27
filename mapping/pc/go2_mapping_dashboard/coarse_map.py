@@ -1,8 +1,7 @@
-"""Versioned coarse-map priors and room verification task generation.
+"""Versioned coarse-map priors and room verification tasks.
 
-The coarse map is intentionally a navigation/semantic prior. It never grants
-geometry authority to hand-authored walls or equipment. Robot observations are
-attached to tasks and can later promote a room-local surface generation.
+Hand-authored walls and equipment remain navigation priors. Robot observations
+are attached to tasks and may later promote a room-local surface generation.
 """
 from __future__ import annotations
 

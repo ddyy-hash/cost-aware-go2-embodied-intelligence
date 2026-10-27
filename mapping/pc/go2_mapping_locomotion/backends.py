@@ -1,7 +1,6 @@
-"""Auditable registry for external locomotion backends.
+"""Registry of external locomotion backend contracts.
 
-The registry describes integration contracts only. It deliberately does not
-download, import, or execute third-party policy code from the Dashboard.
+The Dashboard does not download, import, or execute third-party policy code.
 """
 from __future__ import annotations
 

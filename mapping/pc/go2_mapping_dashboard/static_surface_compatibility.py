@@ -1,9 +1,7 @@
-"""Static compatibility publication for one verified final LiDAR surface.
+"""Mirror a verified reconstruction into the Dashboard's static surface path.
 
-The normal Dashboard owns the measured-surface API.  This module is deliberately
-smaller: it only mirrors an already verified, final automatic-reconstruction
-generation into the Dashboard's shared static root.  It neither starts capture,
-performs reconstruction, changes calibration, nor creates geometry.
+The main Dashboard owns the measured-surface API. This compatibility publisher
+does not start capture, reconstruct data, change calibration, or create geometry.
 """
 
 from __future__ import annotations

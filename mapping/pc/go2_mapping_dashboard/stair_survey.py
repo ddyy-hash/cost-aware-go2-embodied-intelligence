@@ -1,9 +1,4 @@
-"""Read-only stair survey and qualification contracts.
-
-This module is deliberately a geometry/evidence qualifier, not a locomotion
-controller. It can reject a profile or describe a conservative survey result,
-but it never emits a velocity, joint target, or motion lease.
-"""
+"""Qualify stair surveys from geometry and recorded evidence."""
 from __future__ import annotations
 
 from bisect import bisect_left

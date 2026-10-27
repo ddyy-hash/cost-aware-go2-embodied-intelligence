@@ -1,10 +1,8 @@
-"""Strict independent raw LiDAR--IMU calibration evidence contract.
+"""Validate independent raw LiDAR--IMU calibration evidence.
 
-The LIO odometry output is intentionally not accepted here: using a vendor
-extrinsic to produce LIO and then using that LIO to validate the same
-extrinsic is circular evidence. This module accepts results from a dedicated
-raw-sensor solver (for example LI-Init/OA-LICalib) only when three independent
-source captures and their immutable solver artifacts are present.
+LIO odometry cannot validate the extrinsic used to produce it. This contract
+accepts results from a raw-sensor solver only when three independent captures
+and their immutable solver artifacts are present.
 """
 from __future__ import annotations
 

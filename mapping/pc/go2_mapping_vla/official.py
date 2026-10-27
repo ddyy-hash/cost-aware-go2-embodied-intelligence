@@ -1,9 +1,4 @@
-"""Local MobileVLA-R1 inference backend.
-
-This module keeps the upstream model loader isolated from the Dashboard. It
-loads only local files and returns the upstream text/action observation for the
-safe semantic adapter; it never publishes robot commands.
-"""
+"""Load local MobileVLA-R1 models and return observations to the intent adapter."""
 from __future__ import annotations
 
 import importlib.machinery

@@ -1,10 +1,9 @@
-"""Orchestrate one immutable, explicitly uncalibrated RGB-D surface preview.
+"""Build an uncalibrated color preview from a derived LiDAR surface.
 
-This module is intentionally an offline inspection workflow.  It derives the
-capture path from the current surface session, replays only the source artifacts
-bound into that surface, and publishes a content-addressed color sidecar outside
-the formal derived-surface and appearance stores.  It never updates a pointer,
-mesh, source bag, calibration record, GLB, or final appearance store.
+The workflow replays only artifacts bound to the current surface session and
+writes a content-addressed sidecar outside the final surface and appearance
+stores. It leaves the mesh, source bag, calibration record, and current
+publication pointers unchanged.
 """
 
 from __future__ import annotations

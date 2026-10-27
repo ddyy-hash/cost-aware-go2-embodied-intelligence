@@ -1,9 +1,7 @@
-"""Offline bridge from MobileVLA semantics to terrain supervisor requests.
+"""Convert MobileVLA task labels into requests for the terrain supervisor.
 
-MobileVLA identifies an operator-facing task, while terrain classification and
-locomotion authorization remain independent controls. This module composes
-those contracts for replay and audit only; it has no transport or actuator
-integration.
+Terrain classification and locomotion authorization stay separate. This
+offline bridge has no transport or actuator integration.
 """
 from __future__ import annotations
 

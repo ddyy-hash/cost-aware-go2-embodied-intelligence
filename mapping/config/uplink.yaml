@@ -18,10 +18,8 @@ transport:
     official_regions_fallback: true
     stun_data_plane: false
 dual_queue:
-  # This is a probe ceiling, not a fixed rate. Verified chunk ACKs continually
-  # update the available capacity. The preview producer publishes its live byte
-  # demand at the actual adaptive detail cadence. That demand is
-  # reserved first; durable high-fidelity transfer only uses remaining capacity.
+  # Probe ceiling, not a fixed transfer rate. Verified ACKs update capacity;
+  # preview demand is reserved before durable high-fidelity transfer.
   probe_ceiling_mbps: 30
   bootstrap_total_mbps: 4.0
   allocation_state_ttl_s: 30

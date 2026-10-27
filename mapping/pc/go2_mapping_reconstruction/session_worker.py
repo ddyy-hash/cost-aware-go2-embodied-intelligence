@@ -1,10 +1,8 @@
-"""Session-scoped, verified LiDAR surface reconstruction worker.
+"""Reconstruct one verified LiDAR capture session.
 
-The worker deliberately owns one capture session.  It can publish a stable
-observed-only surface while parts arrive, but it never advances the artifact
-lifecycle to ``PC_RECONSTRUCTION_INGESTED``.  The immutable raw parts remain
-available until the complete capture manifest is verified and the existing
-offline replay has completed.
+The worker may publish an observed-only surface while parts arrive, but it does
+not advance the artifact lifecycle to ``PC_RECONSTRUCTION_INGESTED``. Raw parts
+remain available until the complete manifest and offline replay are verified.
 """
 
 from __future__ import annotations

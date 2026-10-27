@@ -1,8 +1,7 @@
-"""Non-actuating safety supervisor for complex-terrain locomotion.
+"""Check whether a complex-terrain task may be sent to a controller.
 
-This module owns task authorization, not low-level control. A READY decision
-contains a bounded controller request; a Go2-side adapter must perform its own
-watchdog, firmware, actuator, and emergency-stop checks before any actuation.
+A READY result contains a bounded request, not a motor command. The Go2 adapter
+must still check its watchdog, firmware, actuators, and emergency stop.
 """
 from __future__ import annotations
 

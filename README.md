@@ -4,16 +4,13 @@
 
 > This repository is a research and reproducibility package. It contains source code, simulation assets, compact replay policies, validation tests, and deployment scripts. Hardware motion remains operator-authorized and fail-closed.
 
-## Why this project
+## Implementation
 
-Industrial robots need a useful map before they can plan safely, while raw sensor data is expensive to move over a constrained link. This project separates the low-latency preview path from durable high-fidelity transfer, measures link capacity before allocating bandwidth, and carries evidence and authorization state through the mapping and navigation pipeline.
+The PC and robot communicate over a measured link. The robot sends preview data first, then uploads closed sensor segments as bandwidth allows. Uploads resume by chunk and are acknowledged only after checksum verification and reconstruction ingest.
 
-The design has four practical properties:
+On the PC, LiDAR and LIO observations feed mapping and surface reconstruction. Calibration, frame IDs, timing residuals, and source hashes travel with the artifacts so later stages can check where each result came from. The Dashboard displays those results and their quality state.
 
-- **Cost-aware uplink:** preview data receives priority; durable RGB-D, LiDAR, IMU, and pose artifacts use remaining measured capacity with resumable, checksum-verified transfer.
-- **Evidence-bound mapping:** calibration, frame conventions, timing residuals, texture confidence, and artifact hashes are explicit rather than hidden in runtime state.
-- **High-level VLA boundary:** MobileVLA can produce navigation intent, but it cannot emit joint, gait, torque, or motor commands.
-- **Fail-closed locomotion:** terrain execution requires fresh terrain evidence, sensor and motor-health gates, a valid policy catalog, and an explicit operator authorization.
+MobileVLA is limited to high-level navigation intent. Terrain execution has a separate request gate with sensor, policy, and operator checks; the bundled PGTT policies are used for offline replay and do not authorize robot motion.
 
 ## System layout
 
@@ -37,8 +34,8 @@ PC mapping core --> fusion --> reconstruction / appearance --> dashboard
 
 | Path | Purpose |
 | --- | --- |
-| `mapping/pc/` | PC-side mapping, calibration, fusion, reconstruction, dashboard, quality gates, and VLA adapters |
-| `mapping/robot/` | Go2 capture, native DDS bridges, Nav2 integration, telemetry, and locomotion safety services |
+| `mapping/pc/` | Mapping, calibration, fusion, reconstruction, Dashboard, quality gates, and VLA adapters |
+| `mapping/robot/` | Go2 capture, native DDS bridges, Nav2 integration, telemetry, and locomotion request gates |
 | `mapping/tests/` | Unit, contract, offline replay, and acceptance-matrix tests |
 | `mapping/config/` | Versioned schemas and example configuration; machine-specific identities stay local |
 | `tools/` | WSL setup, build, validation, replay, deployment, and maintenance entry points |
@@ -48,7 +45,7 @@ PC mapping core --> fusion --> reconstruction / appearance --> dashboard
 
 ## Quick start: offline checks
 
-The authoritative development environment is WSL Ubuntu 24.04 with the `go2-mapping-pc` micromamba environment. From the repository root:
+The reference development environment is WSL Ubuntu 24.04 with the `go2-mapping-pc` micromamba environment. From the repository root:
 
 ```bash
 micromamba activate go2-mapping-pc
@@ -91,7 +88,7 @@ The dashboard is an operator-facing visualization for map, trajectory, sensor he
 
 ## Public-release boundary
 
-This repository deliberately excludes raw bags, point clouds, generated meshes, model checkpoints, runtime tokens, Wi-Fi profiles, tailnet identities, and large competition media. The local `materials/` directory is retained for the original working package; use GitHub Releases or an institutional artifact store for media that you are authorized to publish.
+Raw bags, point clouds, generated meshes, model checkpoints, runtime tokens, Wi-Fi profiles, tailnet identities, and large competition media stay out of Git. The local `materials/` directory may contain the original working files; use a release or an institutional artifact store for media you have permission to publish.
 
 Some runtime configurations contain device serial numbers or private network addresses and are ignored by `.gitignore`. Copy the corresponding `*.example.*` file and provide local values before running hardware workflows. Never commit tokens or private keys.
 

@@ -1,8 +1,7 @@
-"""Validate high-level locomotion requests before a hardware adapter runs.
+"""Validate terrain-controller requests before they reach the Go2 adapter.
 
-This module intentionally has no Unitree SDK dependency. The SDK-specific
-adapter is loaded only on the Go2 and must implement its own watchdog and
-emergency-stop path.
+The SDK adapter is loaded on the robot and remains responsible for its
+watchdog and emergency-stop path.
 """
 from __future__ import annotations
 
